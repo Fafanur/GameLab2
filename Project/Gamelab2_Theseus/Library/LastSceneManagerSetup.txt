@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_GameBuilding/_Scene's/Level_Island.unity
+- path: Assets/_Alieke/Scene's/Making_Scene.unity
   isLoaded: 1
   isActive: 1
