@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/_GameBuilding/_Scene's/Level_Island.unity
+  isLoaded: 1
+  isActive: 1
