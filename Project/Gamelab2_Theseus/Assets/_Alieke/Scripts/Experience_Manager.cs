@@ -31,6 +31,7 @@ public class Experience_Manager : MonoBehaviour {
     {
         if(currentExperience > neededExperience)
         {
+            GetComponent<UI_Manager>().experienceBarFiller.fillAmount = 0;
             currentLevel++;
             experiencePoints++;
             currentExperience = currentExperience - neededExperience;

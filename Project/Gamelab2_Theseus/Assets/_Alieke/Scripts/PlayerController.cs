@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     //Components
     public GameObject gameManager;
+    public Animator headBob;
     private Rigidbody _rb;
     private Animator _Anim;
     public GameObject statPanel;
@@ -25,13 +26,15 @@ public class PlayerController : MonoBehaviour {
 
     private bool statPanelOpen;
 
+    public float fillAmount;
+
 
     void Awake()
     {
         stamina.currentStamina = stamina.maxStamina;
         movement.normalSpeed = movement.moveSpeed;
         _rb = GetComponent<Rigidbody>();
-        _Anim = gameManager.GetComponent<Animator>();
+        _Anim = headBob.GetComponent<Animator>();
     }
 
     void Update() // Opens the statistics panel
@@ -50,6 +53,11 @@ public class PlayerController : MonoBehaviour {
                 mayAttack = false;
                 statPanelOpen = true;
             }
+        }
+
+        if (Input.GetButtonDown("o"))
+        {
+            GetHit(5);
         }
     }
 
@@ -155,7 +163,7 @@ public class PlayerController : MonoBehaviour {
         if (!BlockChance())
         {
             health.currentHealth -= (damage - defense.defenseAmount);
-            if (health.currentHealth < 0)
+            if (health.currentHealth <= 0)
             {
                 //death
             }
