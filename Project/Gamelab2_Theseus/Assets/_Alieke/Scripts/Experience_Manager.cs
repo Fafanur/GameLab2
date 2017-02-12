@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Experience_Manager : MonoBehaviour {
     public PlayerController player;
+    private UI_Manager uiManager;
     public Statistics stats;
 
     public float currentExperience;
@@ -16,6 +17,7 @@ public class Experience_Manager : MonoBehaviour {
 
 	void Awake () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        uiManager = GetComponent<UI_Manager>();
 	}
 	
 
@@ -49,6 +51,7 @@ public class Experience_Manager : MonoBehaviour {
             experiencePoints--;
             player.attack.attackDamage *= 1.25f;
             player.attack.critDamage +=0.5f;
+            uiManager.SetStrengthStats(player.attack.attackDamage, stats.strength);
         }
     }
 
@@ -59,6 +62,7 @@ public class Experience_Manager : MonoBehaviour {
             stats.critChance++;
             experiencePoints--;
             player.attack.critChance += 0.25f;
+            uiManager.SetCritStats(player.attack.critChance, stats.critChance);
         }
     }
 
@@ -68,7 +72,9 @@ public class Experience_Manager : MonoBehaviour {
         {
             stats.stamina++;
             experiencePoints--;
-            player.stamina.maxStamina = Mathf.Round(player.stamina.maxStamina * 1.12f);         
+            player.stamina.currentStamina = (player.stamina.maxStamina * 1.12f) - player.stamina.maxStamina + player.stamina.currentStamina;
+            player.stamina.maxStamina *= 1.12f;          
+            uiManager.SetStaminaStats(player.stamina.maxStamina, stats.stamina);         
         }
     }
 
@@ -78,7 +84,9 @@ public class Experience_Manager : MonoBehaviour {
         {
             stats.health++;
             experiencePoints--;
-            player.health.maxHealth = Mathf.Round(player.health.maxHealth * 1.05f);
+            player.health.currentHealth = (player.health.maxHealth * 1.12f) - player.health.maxHealth + player.health.currentHealth;
+            player.health.maxHealth *= 1.05f;
+            uiManager.SetHealthStats(player.health.maxHealth, stats.health);
         }
     }
 
@@ -90,11 +98,10 @@ public class Experience_Manager : MonoBehaviour {
             experiencePoints--;
             player.defense.defenseAmount += 0.15f;
             player.defense.blockChance += 0.1f;
+            uiManager.SetDefenseStats(player.defense.defenseAmount, stats.defense);
         }
     }
 }
-
-
 
 [System.Serializable]
 public class Statistics

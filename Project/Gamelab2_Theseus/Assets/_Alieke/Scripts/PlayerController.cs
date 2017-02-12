@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody _rb;
     private Animator _Anim;
     public GameObject statPanel;
+    public GameObject statPointsPanel;
 
     enum States { Idle, Walking }
     States movingStates;
@@ -44,12 +45,16 @@ public class PlayerController : MonoBehaviour {
             if (statPanelOpen)
             {
                 statPanel.SetActive(false);
+                statPointsPanel.SetActive(false);
                 statPanelOpen = false;
                 mayAttack = true;
+                Camera.main.GetComponent<CameraController>().maymoveMouse = true;
             }
             else
             {
+                Camera.main.GetComponent<CameraController>().maymoveMouse = false;
                 statPanel.SetActive(true);
+                statPointsPanel.SetActive(true);
                 mayAttack = false;
                 statPanelOpen = true;
             }
