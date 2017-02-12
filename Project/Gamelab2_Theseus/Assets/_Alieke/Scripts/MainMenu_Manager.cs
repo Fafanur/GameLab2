@@ -12,7 +12,7 @@ public class MainMenu_Manager : MonoBehaviour
 
     public void StartGameButton()
     {
-        SceneManager.LoadScene(1);
+        GetComponent<Load_Manager>().LoadScene("Making_Scene");
     }
 
     public void MainMenuButton()

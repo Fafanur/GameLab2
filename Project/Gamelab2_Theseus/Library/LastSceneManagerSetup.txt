@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Alieke/Scene's/Making_Scene.unity
+- path: Assets/_Alieke/Scene's/Main_Menu_test.unity
   isLoaded: 1
   isActive: 1
