@@ -25,6 +25,10 @@ public class UI_Manager : MonoBehaviour
     public Text healthPoints;
     public Text defensePoints;
 
+    [Header("Game Over")]
+    public Image gameOverPanel;
+    private bool playerDead;
+
     private PlayerController player;
     private Experience_Manager xpManager;
 
@@ -42,7 +46,19 @@ public class UI_Manager : MonoBehaviour
         HealthBar();
         ExperienceBar();
         StaminaBar();
+
+        if (playerDead)
+        {
+            float col = gameOverPanel.color.a;
+           col += 2.5f * Time.deltaTime;
+        }
 	}
+
+    public void GameOverScreen()
+    {       
+        gameOverPanel.gameObject.SetActive(true);
+        playerDead = true;
+    }
 
     public float SetStrengthStats(float stat, float points)
     {

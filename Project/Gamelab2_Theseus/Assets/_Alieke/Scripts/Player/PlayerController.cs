@@ -7,9 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     public GameObject gameManager;
-    public Animator headBob;
     private Rigidbody _rb;
-    private Animator _Anim;
+    public Animator _Anim;
     public GameObject statPanel;
     public GameObject statPointsPanel;
 
@@ -47,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public float defenseAmount;
 
     private bool statPanelOpen;
+    public bool mayMove;
 
     void Awake()
     {
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         currentStamina = maxStamina;
         normalSpeed = moveSpeed;
         _rb = GetComponent<Rigidbody>();
-        _Anim = headBob.GetComponent<Animator>();
+        _Anim = _Anim.GetComponent<Animator>();
     }
 
     void Update() // Opens the statistics panel
@@ -81,14 +81,17 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("o"))
         {
-            GetHit(5);
+            GetHit(10);
         }
     }
 
     void FixedUpdate()
     {
-        Movement();
-        Jump();
+        if (mayMove)
+        {
+            Movement();
+            Jump();
+        }
 
         switch (movingStates)
         {
@@ -189,7 +192,9 @@ public class PlayerController : MonoBehaviour
             currentHealth -= (damage - defenseAmount);
             if (currentHealth <= 0)
             {
-                //death
+                Camera.main.GetComponent<CameraController>().maymoveMouse = false;
+                mayMove = false;
+                gameManager.GetComponent<UI_Manager>().GameOverScreen();
             }
         }
         return currentHealth;
