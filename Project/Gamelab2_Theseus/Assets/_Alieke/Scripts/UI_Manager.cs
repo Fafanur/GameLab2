@@ -4,17 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Manager : MonoBehaviour {
+public class UI_Manager : MonoBehaviour
+{
+    [Header("UI Bars")]
     public Image healthBarFiller;
     public Image experienceBarFiller;
     public Image staminaBarFiller;
 
+    [Header("Statistic text")]
     public Text strengthText;
     public Text critText;
     public Text staminaText;
     public Text healthText;
     public Text defenseText;
 
+    [Header("Statistic Points")]
     public Text strengthPoints;
     public Text critPoints;
     public Text staminaPoints;
@@ -26,11 +30,11 @@ public class UI_Manager : MonoBehaviour {
 
 	void Awake () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        strengthText.text = "Strength : " + player.attack.attackDamage;
-        critText.text = "Crit Chance : " + player.attack.critChance;
-        staminaText.text = "Stamina : " + player.stamina.maxStamina;
-        healthText.text = "Health : " + player.health.maxHealth;
-        defenseText.text = "Defense : " + player.defense.defenseAmount;
+        strengthText.text = "Strength : " + player.attackDamage;
+        critText.text = "Crit Chance : " + player.critChance;
+        staminaText.text = "Stamina : " + player.maxStamina;
+        healthText.text = "Health : " + player.maxHealth;
+        defenseText.text = "Defense : " + player.defenseAmount;
         xpManager = GetComponent<Experience_Manager>();
 	}
 	
@@ -77,13 +81,13 @@ public class UI_Manager : MonoBehaviour {
 
     public void HealthBar()
     {
-        float fillAmount = player.health.currentHealth / player.health.maxHealth;
+        float fillAmount = player.currentHealth / player.maxHealth;
         healthBarFiller.fillAmount = Mathf.Lerp(healthBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
     }
 
     public void StaminaBar()
     {
-        float fillAmount = player.stamina.currentStamina / player.stamina.maxStamina;
+        float fillAmount = player.currentStamina / player.maxStamina;
         staminaBarFiller.fillAmount = Mathf.Lerp(staminaBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
     }
 

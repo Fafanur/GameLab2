@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
-    //Components
+public class PlayerController : MonoBehaviour
+{
+    [Header("Components")]
     public GameObject gameManager;
     public Animator headBob;
     private Rigidbody _rb;
@@ -15,25 +16,43 @@ public class PlayerController : MonoBehaviour {
     enum States { Idle, Walking }
     States movingStates;
 
-
-    public Movement movement;
-    public Stamina stamina;
-    public Health health;
-    public Attack attack;
-    public Defense defense;
-
+    [Header("Movement")]
+    public float moveSpeed;
+    public float accelerationSpeed;
+    public float maxSpeed;
+    public float normalSpeed;
+    public float heightRayDis;
+    public float jumpForce;
     private bool mayJump = true;
     private bool mayAttack = true;
 
+    [Header("Attack")]
+    public float attackDamage;
+    public float critChance;
+    public float critDamage;
+    public float totalDamage;
+
+    [Header("Stamina")]
+    public float currentStamina;
+    public float maxStamina;
+    public float staminaDrain;
+    public float staminaRecover;
+
+    [Header("Health")]
+    public float currentHealth;
+    public float maxHealth;
+
+    [Header("Defense")]
+    public float blockChance;
+    public float defenseAmount;
+
     private bool statPanelOpen;
-
-    public float fillAmount;
-
 
     void Awake()
     {
-        stamina.currentStamina = stamina.maxStamina;
-        movement.normalSpeed = movement.moveSpeed;
+        currentHealth = maxHealth;
+        currentStamina = maxStamina;
+        normalSpeed = moveSpeed;
         _rb = GetComponent<Rigidbody>();
         _Anim = headBob.GetComponent<Animator>();
     }
@@ -86,35 +105,35 @@ public class PlayerController : MonoBehaviour {
     {
         float xInput = Input.GetAxis("Horizontal");
         float yInput = Input.GetAxis("Vertical");
-        _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * movement.moveSpeed * yInput + transform.right * Time.deltaTime * movement.moveSpeed * xInput);
+        _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * moveSpeed * yInput + transform.right * Time.deltaTime * moveSpeed * xInput);
         if (yInput > 0)
         {
             movingStates = States.Walking;
             if (Input.GetButton("Shift"))
             {
-                if (stamina.currentStamina > 0)
+                if (currentStamina > 0)
                 {
-                    movement.moveSpeed += movement.accelerationSpeed * Time.deltaTime;
-                    Mathf.Clamp(movement.moveSpeed, 0, movement.maxSpeed);
-                    stamina.currentStamina -= stamina.staminaDrain * Time.deltaTime;
+                    moveSpeed += accelerationSpeed * Time.deltaTime;
+                    Mathf.Clamp(moveSpeed, 0, maxSpeed);
+                    currentStamina -= staminaDrain * Time.deltaTime;
                 }
             }
         }
-        else if (movement.moveSpeed > movement.normalSpeed)
+        else if (moveSpeed > normalSpeed)
         {
-            movement.moveSpeed -= movement.accelerationSpeed * Time.deltaTime;
+            moveSpeed -= accelerationSpeed * Time.deltaTime;
         }
         else
         {
             movingStates = States.Idle;
         }
 
-        if (stamina.currentStamina < stamina.maxStamina && !Input.GetButtonDown("Shift"))
+        if (currentStamina < maxStamina && !Input.GetButtonDown("Shift"))
         {
-            stamina.currentStamina += stamina.staminaRecover * Time.deltaTime;
+            currentStamina += staminaRecover * Time.deltaTime;
         }
 
-        if (Physics.Raycast(transform.position, -transform.up, movement.heightRayDis))
+        if (Physics.Raycast(transform.position, -transform.up, heightRayDis))
         {
             _rb.useGravity = false;
         }
@@ -130,11 +149,11 @@ public class PlayerController : MonoBehaviour {
         {
             if (mayJump)
             {
-                _rb.AddForce(Vector3.up * movement.jumpForce);
+                _rb.AddForce(Vector3.up * jumpForce);
                 mayJump = false;
             }
         }
-        if (Physics.Raycast(transform.position, -transform.up, movement.heightRayDis))
+        if (Physics.Raycast(transform.position, -transform.up, heightRayDis))
         {
             mayJump = true;
         }
@@ -145,7 +164,7 @@ public class PlayerController : MonoBehaviour {
         print(CritStrike());
         if (CritStrike())
         {
-            attack.totalDamage = Mathf.Round(attack.attackDamage * attack.critDamage);
+            totalDamage = Mathf.Round(attackDamage * critDamage);
             //attack animation
         }
     }
@@ -153,7 +172,7 @@ public class PlayerController : MonoBehaviour {
     private  bool CritStrike() //Calculates if attack crits
     {
         float number = Random.Range(1, 101);
-        if (attack.critChance >= number)
+        if (critChance >= number)
         {
             return true;
          }
@@ -167,19 +186,19 @@ public class PlayerController : MonoBehaviour {
     {
         if (!BlockChance())
         {
-            health.currentHealth -= (damage - defense.defenseAmount);
-            if (health.currentHealth <= 0)
+            currentHealth -= (damage - defenseAmount);
+            if (currentHealth <= 0)
             {
                 //death
             }
         }
-        return health.currentHealth;
+        return currentHealth;
     }
 
     bool BlockChance() // calculate if the player blocks
     {
         float number = Random.Range(1, 101);
-        if(number <= defense.blockChance)
+        if(number <= blockChance)
         {
             return true;
         }
@@ -191,44 +210,13 @@ public class PlayerController : MonoBehaviour {
 
     float GetHealth(float healAmount)
     {
-        if ((health.currentHealth + healAmount) > health.maxHealth){
-            health.currentHealth = health.maxHealth;         
+        if ((currentHealth + healAmount) > maxHealth){
+            currentHealth = maxHealth;         
         }
         else
         {
-            health.currentHealth += healAmount;
+            currentHealth += healAmount;
         }
-        return health.currentHealth;
+        return currentHealth;
     }
-}
-
-[System.Serializable]
-public class Attack
-{
-    public float attackDamage, critChance,critDamage, totalDamage;
-}
-
-[System.Serializable]
-public class Health
-{
-    public float currentHealth, maxHealth;
-}
-
-[System.Serializable]
-public class Stamina
-{
-    public float currentStamina, maxStamina, staminaDrain, staminaRecover;
-}
-
-[System.Serializable]
-public class Defense
-{
-    public float blockChance, defenseAmount;
-}
-
-[System.Serializable]
-public class Movement
-{
-    public float moveSpeed, accelerationSpeed, maxSpeed, normalSpeed, heightRayDis, jumpForce;
-
 }

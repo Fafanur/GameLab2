@@ -3,19 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Experience_Manager : MonoBehaviour {
+public class Experience_Manager : MonoBehaviour
+{
+    [Header("Components")]
     public PlayerController player;
     private UI_Manager uiManager;
-    public Statistics stats;
 
+    [Header("Level management")]
     public float currentExperience;
     public float neededExperience;
-
     public int currentLevel;
     public int experiencePoints;
 
+    [Header("Statistics")]
+    public float strength;
+    public float stamina;
+    public float health;
+    public float defense;
+    public float critChance;
 
-	void Awake () {
+
+    void Awake () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         uiManager = GetComponent<UI_Manager>();
 	}
@@ -47,11 +55,11 @@ public class Experience_Manager : MonoBehaviour {
     {
         if (experiencePoints > 0)
         {
-            stats.strength++;
+            strength++;
             experiencePoints--;
-            player.attack.attackDamage *= 1.25f;
-            player.attack.critDamage +=0.5f;
-            uiManager.SetStrengthStats(player.attack.attackDamage, stats.strength);
+            player.attackDamage *= 1.25f;
+            player.critDamage +=0.5f;
+            uiManager.SetStrengthStats(player.attackDamage, strength);
         }
     }
 
@@ -59,10 +67,10 @@ public class Experience_Manager : MonoBehaviour {
     {
         if (experiencePoints > 0)
         {
-            stats.critChance++;
+            critChance++;
             experiencePoints--;
-            player.attack.critChance += 0.25f;
-            uiManager.SetCritStats(player.attack.critChance, stats.critChance);
+            player.critChance += 0.25f;
+            uiManager.SetCritStats(player.critChance, critChance);
         }
     }
 
@@ -70,11 +78,11 @@ public class Experience_Manager : MonoBehaviour {
     {
         if (experiencePoints > 0)
         {
-            stats.stamina++;
+            stamina++;
             experiencePoints--;
-            player.stamina.currentStamina = (player.stamina.maxStamina * 1.12f) - player.stamina.maxStamina + player.stamina.currentStamina;
-            player.stamina.maxStamina *= 1.12f;          
-            uiManager.SetStaminaStats(player.stamina.maxStamina, stats.stamina);         
+            player.currentStamina = (player.maxStamina * 1.12f) - player.maxStamina + player.currentStamina;
+            player.maxStamina *= 1.12f;          
+            uiManager.SetStaminaStats(player.maxStamina, stamina);         
         }
     }
 
@@ -82,11 +90,11 @@ public class Experience_Manager : MonoBehaviour {
     {
         if (experiencePoints > 0)
         {
-            stats.health++;
+            health++;
             experiencePoints--;
-            player.health.currentHealth = (player.health.maxHealth * 1.12f) - player.health.maxHealth + player.health.currentHealth;
-            player.health.maxHealth *= 1.05f;
-            uiManager.SetHealthStats(player.health.maxHealth, stats.health);
+            player.currentHealth = (player.maxHealth * 1.12f) - player.maxHealth + player.currentHealth;
+            player.maxHealth *= 1.05f;
+            uiManager.SetHealthStats(player.maxHealth, health);
         }
     }
 
@@ -94,17 +102,11 @@ public class Experience_Manager : MonoBehaviour {
     {
         if (experiencePoints > 0)
         {
-            stats.defense++;
+            defense++;
             experiencePoints--;
-            player.defense.defenseAmount += 0.15f;
-            player.defense.blockChance += 0.1f;
-            uiManager.SetDefenseStats(player.defense.defenseAmount, stats.defense);
+            player.defenseAmount += 0.15f;
+            player.blockChance += 0.1f;
+            uiManager.SetDefenseStats(player.defenseAmount, defense);
         }
     }
-}
-
-[System.Serializable]
-public class Statistics
-{
-    public float strength, stamina, health, defense, critChance;
 }
