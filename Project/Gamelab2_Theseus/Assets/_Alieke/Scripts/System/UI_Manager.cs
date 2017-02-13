@@ -32,7 +32,9 @@ public class UI_Manager : MonoBehaviour
     private PlayerController player;
     private Experience_Manager xpManager;
 
-	void Awake () {
+    public List<Image> inventorySlots = new List<Image>();
+
+    void Awake () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         strengthText.text = "Strength : " + player.attackDamage;
         critText.text = "Crit Chance : " + player.critChance;
@@ -53,6 +55,12 @@ public class UI_Manager : MonoBehaviour
            col += 2.5f * Time.deltaTime;
         }
 	}
+
+    public int GetItem(int slotNumber)
+    {
+        inventorySlots[slotNumber].color = Color.yellow;
+        return slotNumber;
+    }
 
     public void GameOverScreen()
     {       
