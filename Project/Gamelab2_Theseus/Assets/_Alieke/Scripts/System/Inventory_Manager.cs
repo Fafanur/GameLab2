@@ -8,7 +8,7 @@ public class Inventory_Manager : MonoBehaviour {
     PlayerController plyrController;
 
     void Awake () {
-        plyrController = player.GetComponent<PlayerController>();
+        plyrController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 	}
 	
 	public int SetItemStats (int number, float defPoints, float healthPoints)
