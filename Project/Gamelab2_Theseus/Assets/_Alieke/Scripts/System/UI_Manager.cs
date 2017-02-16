@@ -18,6 +18,8 @@ public class UI_Manager : MonoBehaviour
     public Text healthText;
     public Text defenseText;
 
+    public Text levelText;
+
     [Header("Statistic Points")]
     public Text strengthPoints;
     public Text critPoints;
@@ -32,7 +34,7 @@ public class UI_Manager : MonoBehaviour
     private PlayerController player;
     private Experience_Manager xpManager;
 
-    public List<Image> inventorySlots = new List<Image>();
+    public ItemUI itemUI;
 
     void Awake () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -56,9 +58,12 @@ public class UI_Manager : MonoBehaviour
         }
 	}
 
-    public int GetItem(int slotNumber)
+    public int GetItem(int slotNumber, string itemName, int healthPoints, int defensePoints)
     {
-        inventorySlots[slotNumber].color = Color.yellow;
+        itemUI.inventorySlots[slotNumber].color = Color.yellow;
+        string text  = itemName + "@Health + " + healthPoints.ToString() + "@Defense + " + defensePoints.ToString();
+        text = text.Replace("@",  System.Environment.NewLine);
+        itemUI.itemText[slotNumber].text = text;
         return slotNumber;
     }
 
@@ -120,3 +125,11 @@ public class UI_Manager : MonoBehaviour
         experienceBarFiller.fillAmount = Mathf.Lerp(experienceBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
     }
 }
+
+[System.Serializable]
+public class ItemUI
+{
+    public List<Image> inventorySlots = new List<Image>();
+    public List<Text> itemText = new List<Text>();
+}
+

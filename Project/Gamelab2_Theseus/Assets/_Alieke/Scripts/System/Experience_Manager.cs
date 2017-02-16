@@ -44,6 +44,7 @@ public class Experience_Manager : MonoBehaviour
             GetComponent<UI_Manager>().experienceBarFiller.fillAmount = 0;
             currentLevel++;
             experiencePoints++;
+            GetComponent<UI_Manager>().levelText.text = "Level : " + currentLevel.ToString();
             currentExperience = currentExperience - neededExperience;
             neededExperience = neededExperience * 1.15f;
             neededExperience = Mathf.Round(neededExperience);

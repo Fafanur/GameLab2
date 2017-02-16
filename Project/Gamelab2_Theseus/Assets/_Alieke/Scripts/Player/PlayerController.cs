@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
     private  bool CritStrike() //Calculates if attack crits
     {
-        float number = Random.Range(1, 101);
+        float number = Random.Range(0, 100);
         if (critChance >= number)
         {
             return true;
