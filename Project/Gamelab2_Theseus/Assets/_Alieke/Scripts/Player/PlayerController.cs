@@ -8,12 +8,17 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     public GameObject gameManager;
     private Rigidbody _rb;
-    public Animator _Anim;
+    public Animator headBobAnimator;
     public GameObject statPanel;
     public GameObject statPointsPanel;
+    private Animator ownAnimator;
 
-    enum States { Idle, Walking }
-    States movingStates;
+    enum MovingStates { Idle, Walking}
+    MovingStates movingStates;
+
+    enum CombatStates { Idle, AttackLeft, AttackRight}
+    CombatStates combatStates;
+    
 
     [Header("Movement")]
     public float moveSpeed;
@@ -24,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     private bool mayJump = true;
     private bool mayAttack = true;
+    private float xInput;
+    private float yInput;
 
     [Header("Attack")]
     public float attackDamage;
@@ -54,7 +61,8 @@ public class PlayerController : MonoBehaviour
         currentStamina = maxStamina;
         normalSpeed = moveSpeed;
         _rb = GetComponent<Rigidbody>();
-        _Anim = _Anim.GetComponent<Animator>();
+        headBobAnimator = headBobAnimator.GetComponent<Animator>();
+        ownAnimator = GetComponent<Animator>();
     }
 
     void Update() // Opens the statistics panel
@@ -95,23 +103,49 @@ public class PlayerController : MonoBehaviour
 
         switch (movingStates)
         {
-            case States.Idle:
-                _Anim.SetBool("Walking", false);
+            case MovingStates.Idle:
+                headBobAnimator.SetBool("Walking", false);
                 break;
-            case States.Walking:
-                _Anim.SetBool("Walking", true);
+            case MovingStates.Walking:
+                headBobAnimator.SetBool("Walking", true);
                 break;
+        }
+
+        switch (combatStates)
+        {
+            case CombatStates.Idle:
+                ownAnimator.SetBool("Idle", true);
+                ownAnimator.SetBool("AttackLeft", false);
+                ownAnimator.SetBool("AttackRight", false);
+                break;
+            case CombatStates.AttackLeft:
+                ownAnimator.SetBool("AttackLeft", true);
+                ownAnimator.SetBool("Idle", false);
+                ownAnimator.SetBool("AttackRight", false);
+                break;
+            case CombatStates.AttackRight:
+                ownAnimator.SetBool("AttackRight", true);
+                ownAnimator.SetBool("Idle", false);
+                ownAnimator.SetBool("AttackLeft", false);
+                break;
+        }
+        if (mayAttack)
+        {
+            if (Input.GetButtonDown("Fire2"))
+            {
+                Attack();
+            }
         }
     }
 
     void Movement()
     {
-        float xInput = Input.GetAxis("Horizontal");
-        float yInput = Input.GetAxis("Vertical");
+        xInput = Input.GetAxis("Horizontal");
+        yInput = Input.GetAxis("Vertical");
         _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * moveSpeed * yInput + transform.right * Time.deltaTime * moveSpeed * xInput);
         if (yInput > 0)
         {
-            movingStates = States.Walking;
+            movingStates = MovingStates.Walking;
             if (Input.GetButton("Shift"))
             {
                 if (currentStamina > 0)
@@ -128,7 +162,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            movingStates = States.Idle;
+            movingStates = MovingStates.Idle;
         }
 
         if (currentStamina < maxStamina && !Input.GetButtonDown("Shift"))
@@ -164,11 +198,37 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        print(CritStrike());
-        if (CritStrike())
+        if (CritStrike()) //Calculate total damage
         {
             totalDamage = Mathf.Round(attackDamage * critDamage);
-            //attack animation
+        }
+
+        if (xInput < 0) //Attack van rechts naar links
+        {
+            combatStates = CombatStates.AttackLeft;
+        }
+        else if(xInput > 0) // Attack van links naar rechts
+        {
+            combatStates = CombatStates.AttackRight;
+        }
+        else if(xInput == 0) // random attack
+        {
+            int number = Random.Range(0, 1);
+            if(number == 0)
+            {
+                combatStates = CombatStates.AttackLeft;
+            }
+            else
+            {
+                combatStates = CombatStates.AttackRight;
+            }
+        }
+    }
+
+   public void EndAttackAnimation(){
+        if (!Input.GetButton("Fire2"))
+        {
+            combatStates = CombatStates.Idle;
         }
     }
 

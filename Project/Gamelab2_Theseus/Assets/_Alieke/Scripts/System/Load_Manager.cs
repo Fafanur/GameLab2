@@ -9,6 +9,8 @@ public class Load_Manager : MonoBehaviour {
     public Slider progressionBar;
     AsyncOperation aSync;
 
+    public GameObject canStartText;
+
 	
 	public void LoadScene (string levelToLoad) {
         backGround.SetActive(true);
@@ -21,6 +23,16 @@ public class Load_Manager : MonoBehaviour {
         if(aSync != null)
         {
             progressionBar.value = aSync.progress;
+            if (aSync.progress == 0.9f)
+            {
+                progressionBar.value = 1;
+                canStartText.SetActive(true);
+                aSync.allowSceneActivation = false;   
+                if(Input.GetButton("Open Stats"))
+                {
+                    aSync.allowSceneActivation = true;
+                }
+            }
         }
     }
 
