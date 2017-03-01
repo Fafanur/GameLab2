@@ -5,25 +5,55 @@ using UnityEngine.UI;
 
 public class Dialogue_Manager : MonoBehaviour {
     public List<string> textList = new List<string>();
-    int currentString;
+    private int currentString;
+    private int lastString;
+    public float typeSpeed;
     public Text textBar;
+    private bool isTyping;
+    private bool stopTyping;
+    public GameObject textBox;
 
     void Awake()
     {
-        SetText();
+        lastString = textList.Count - 1;
     }
 
 	void Update () {
         if (Input.GetButtonDown("Jump"))
         {
-            currentString++;
-            SetText();
+            if (!isTyping)
+            {
+                currentString++;
+                if(lastString < currentString)
+                {
+                    textBox.SetActive(false);
+                }
+                else
+                {
+                    StartCoroutine(TypeText(textList[currentString]));
+                }
+            }
+            else if (isTyping && !stopTyping)
+            {
+                stopTyping = true;
+            }
         }
 	}
 
-    void SetText()
+    IEnumerator TypeText (string text)
     {
-        textList[currentString] = textList[currentString].Replace("@", System.Environment.NewLine);
-        textBar.text = textList[currentString];
+        int letter = 0;
+        textBar.text = "";
+        isTyping = true;
+        stopTyping = false;
+        while (isTyping && !stopTyping && (letter < text.Length - 1)){   
+            
+            textBar.text += text[letter];
+            letter++;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        textBar.text = text;
+        isTyping = false;
+        stopTyping = false;
     }
 }
