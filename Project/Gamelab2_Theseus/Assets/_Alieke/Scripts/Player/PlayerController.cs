@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("o"))
         {
-            GetHit(10);
+            GetHit(50);
         }
     }
 
