@@ -8,7 +8,7 @@ public class UI_Manager : MonoBehaviour
 {
     [Header("UI Bars")]
     public Image healthBarFiller;
-    public Image experienceBarFiller;
+    public Slider experienceBarFiller;
     public Image staminaBarFiller;
 
     [Header("Statistic text")]
@@ -33,6 +33,8 @@ public class UI_Manager : MonoBehaviour
 
     private PlayerController player;
     private Experience_Manager xpManager;
+
+    public GameObject xp_Particle;
 
     public ItemUI itemUI;
 
@@ -122,7 +124,12 @@ public class UI_Manager : MonoBehaviour
 
     public void ExperienceBar(){
         float fillAmount = xpManager.currentExperience / xpManager.neededExperience;
-        experienceBarFiller.fillAmount = Mathf.Lerp(experienceBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
+        experienceBarFiller.value = Mathf.Lerp(experienceBarFiller.value, fillAmount, Time.deltaTime * 5);
+        float totalAmount = experienceBarFiller.value + fillAmount;
+        if(experienceBarFiller.value != fillAmount)
+        {
+            xp_Particle.SetActive(true);
+        }
     }
 }
 

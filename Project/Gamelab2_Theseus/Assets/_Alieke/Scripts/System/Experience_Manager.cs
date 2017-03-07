@@ -41,7 +41,7 @@ public class Experience_Manager : MonoBehaviour
     {
         if(currentExperience > neededExperience)
         {
-            GetComponent<UI_Manager>().experienceBarFiller.fillAmount = 0;
+            GetComponent<UI_Manager>().experienceBarFiller.value = 0;
             currentLevel++;
             experiencePoints++;
             GetComponent<UI_Manager>().levelText.text = "Level : " + currentLevel.ToString();
