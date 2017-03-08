@@ -26,6 +26,7 @@ public class UI_Manager : MonoBehaviour
     public Text staminaPoints;
     public Text healthPoints;
     public Text defensePoints;
+    public Text totalPoints;
 
     [Header("Game Over")]
     public Image gameOverPanel;
@@ -108,6 +109,12 @@ public class UI_Manager : MonoBehaviour
         defenseText.text = "Defense : " + Mathf.Round(stat);
         defensePoints.text = points.ToString();
         return stat;
+    }
+
+    public float SetTotalPoints(int points)
+    {
+        totalPoints.text = "Points : " + points.ToString();
+        return points;
     }
 
     public void HealthBar()
