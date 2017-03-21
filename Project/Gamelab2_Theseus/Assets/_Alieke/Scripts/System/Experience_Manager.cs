@@ -22,6 +22,15 @@ public class Experience_Manager : MonoBehaviour
     public float defense;
     public float critChance;
 
+    [Header("ScaleFactor")]
+    public float experienceScale;
+    public float strenghtScale;
+    public float critDmgScale;
+    public float critScale;
+    public float stamineScale;
+    public float healthScale;
+    public float defenseScale;
+    public float blockScale;
 
     void Awake () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -41,13 +50,13 @@ public class Experience_Manager : MonoBehaviour
     {
         if(currentExperience > neededExperience)
         {
-            GetComponent<UI_Manager>().experienceBarFiller.value = 0;
+            uiManager.experienceBarFiller.value = 0;
             currentLevel++;
             experiencePoints++;
             uiManager.SetTotalPoints(experiencePoints);
-            GetComponent<UI_Manager>().levelText.text = "Level : " + currentLevel.ToString();
+            uiManager.levelText.text = "Level : " + currentLevel.ToString();
             currentExperience = currentExperience - neededExperience;
-            neededExperience = neededExperience * 1.15f;
+            neededExperience = neededExperience * experienceScale;
             neededExperience = Mathf.Round(neededExperience);
             currentExperience =  Mathf.Round(currentExperience);
         }
@@ -59,8 +68,8 @@ public class Experience_Manager : MonoBehaviour
         {
             strength++;
             experiencePoints--;
-            player.attackDamage *= 1.25f;
-            player.critDamage +=0.5f;
+            player.attackDamage *= strenghtScale;
+            player.critDamage += critDmgScale;
             uiManager.SetStrengthStats(player.attackDamage, strength);
             uiManager.SetTotalPoints(experiencePoints);
         }
@@ -72,7 +81,7 @@ public class Experience_Manager : MonoBehaviour
         {
             critChance++;
             experiencePoints--;
-            player.critChance += 0.25f;
+            player.critChance += critScale;
             uiManager.SetCritStats(player.critChance, critChance);
             uiManager.SetTotalPoints(experiencePoints);
         }
@@ -84,8 +93,8 @@ public class Experience_Manager : MonoBehaviour
         {
             stamina++;
             experiencePoints--;
-            player.currentStamina = (player.maxStamina * 1.12f) - player.maxStamina + player.currentStamina;
-            player.maxStamina *= 1.12f;          
+            player.maxStamina *= stamineScale;
+            player.currentStamina -= player.maxStamina + player.currentStamina;    
             uiManager.SetStaminaStats(player.maxStamina, stamina);
             uiManager.SetTotalPoints(experiencePoints);
         }
@@ -97,8 +106,8 @@ public class Experience_Manager : MonoBehaviour
         {
             health++;
             experiencePoints--;
-            player.currentHealth = (player.maxHealth * 1.12f) - player.maxHealth + player.currentHealth;
-            player.maxHealth *= 1.05f;
+            player.maxHealth *= healthScale;
+            player.currentHealth -=player.maxHealth + player.currentHealth;
             uiManager.SetHealthStats(player.maxHealth, health);
             uiManager.SetTotalPoints(experiencePoints);
         }
@@ -110,8 +119,8 @@ public class Experience_Manager : MonoBehaviour
         {
             defense++;
             experiencePoints--;
-            player.defenseAmount += 0.15f;
-            player.blockChance += 0.1f;
+            player.defenseAmount += defenseScale;
+            player.blockChance += blockScale;
             uiManager.SetDefenseStats(player.defenseAmount, defense);
             uiManager.SetTotalPoints(experiencePoints);
         }

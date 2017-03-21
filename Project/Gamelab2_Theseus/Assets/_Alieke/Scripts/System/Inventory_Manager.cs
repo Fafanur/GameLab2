@@ -16,13 +16,12 @@ public class Inventory_Manager : MonoBehaviour {
 
     }
 	
-	public int SetItemStats (int number, float defPoints, float healthPoints)
+	public void SetItemStats (int number, float defPoints, float healthPoints)
     {
         plyrController.currentHealth = (plyrController.maxHealth + healthPoints) - plyrController.maxHealth + plyrController.currentHealth;
         plyrController.maxHealth += defPoints;
         plyrController.defenseAmount += healthPoints;
         uiManager.SetHealthStats(plyrController.maxHealth, xpManager.health);
         uiManager.SetDefenseStats(plyrController.defenseAmount, xpManager.defense);
-        return number;
 	}
 }

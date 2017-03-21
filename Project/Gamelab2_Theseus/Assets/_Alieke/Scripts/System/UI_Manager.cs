@@ -17,7 +17,6 @@ public class UI_Manager : MonoBehaviour
     public Text staminaText;
     public Text healthText;
     public Text defenseText;
-
     public Text levelText;
 
     [Header("Statistic Points")]
@@ -61,13 +60,12 @@ public class UI_Manager : MonoBehaviour
         }
 	}
 
-    public int GetItem(int slotNumber, string itemName, int healthPoints, int defensePoints)
+    public void GetItem(int slotNumber, string itemName, int healthPoints, int defensePoints)
     {
         itemUI.inventorySlots[slotNumber].color = Color.yellow;
         string text  = itemName + "@Health + " + healthPoints.ToString() + "@Defense + " + defensePoints.ToString();
         text = text.Replace("@",  System.Environment.NewLine);
         itemUI.itemText[slotNumber].text = text;
-        return slotNumber;
     }
 
     public void GameOverScreen()
@@ -76,45 +74,39 @@ public class UI_Manager : MonoBehaviour
         playerDead = true;
     }
 
-    public float SetStrengthStats(float stat, float points)
+    public void SetStrengthStats(float stat, float points)
     {
         strengthText.text = "Strength : " + Mathf.Round(stat);
         strengthPoints.text = points.ToString();
-        return stat;
     }
 
-    public float SetCritStats(float stat, float points)
+    public void SetCritStats(float stat, float points)
     {
         critText.text = "Crit chance : " + Mathf.Round(stat);
         critPoints.text = points.ToString();
-        return stat;
     }
 
-    public float SetStaminaStats(float stat, float points)
+    public void SetStaminaStats(float stat, float points)
     {
         staminaText.text = "Stamina : " + Mathf.Round(stat);
         staminaPoints.text = points.ToString();
-        return stat;
     }
 
-    public float SetHealthStats(float stat, float points)
+    public void SetHealthStats(float stat, float points)
     {
         healthText.text = "Health : " + Mathf.Round(stat);
         healthPoints.text = points.ToString();
-        return stat;
     }
 
-    public float SetDefenseStats(float stat, float points)
+    public void SetDefenseStats(float stat, float points)
     {
         defenseText.text = "Defense : " + Mathf.Round(stat);
         defensePoints.text = points.ToString();
-        return stat;
     }
 
-    public float SetTotalPoints(int points)
+    public void SetTotalPoints(int points)
     {
         totalPoints.text = "Points : " + points.ToString();
-        return points;
     }
 
     public void HealthBar()
