@@ -5,23 +5,26 @@ using UnityEngine.UI;
 
 
 public class Inventory_Manager : MonoBehaviour {
-    PlayerController plyrController;
-    UI_Manager uiManager;
-    Experience_Manager xpManager;
+    public static Inventory_Manager invManager;
 
-    void Awake () {
-        plyrController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        uiManager = GetComponent<UI_Manager>();
-        xpManager = GetComponent<Experience_Manager>();
-
+    void Awake()
+    {
+        if (invManager == null){
+            invManager = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(invManager != this)
+        {
+            Destroy(this);
+        }
     }
-	
+
 	public void SetItemStats (int number, float defPoints, float healthPoints)
     {
-        plyrController.currentHealth = (plyrController.maxHealth + healthPoints) - plyrController.maxHealth + plyrController.currentHealth;
-        plyrController.maxHealth += defPoints;
-        plyrController.defenseAmount += healthPoints;
-        uiManager.SetHealthStats(plyrController.maxHealth, xpManager.health);
-        uiManager.SetDefenseStats(plyrController.defenseAmount, xpManager.defense);
+        PlayerController.playerController.currentHealth = (PlayerController.playerController.maxHealth + healthPoints) - PlayerController.playerController.maxHealth + PlayerController.playerController.currentHealth;
+        PlayerController.playerController.maxHealth += defPoints;
+        PlayerController.playerController.defenseAmount += healthPoints;
+        UI_Manager.uiManager.SetHealthStats(PlayerController.playerController.maxHealth, Experience_Manager.xpManager.health);
+        UI_Manager.uiManager.SetDefenseStats(PlayerController.playerController.defenseAmount, Experience_Manager.xpManager.defense);
 	}
 }

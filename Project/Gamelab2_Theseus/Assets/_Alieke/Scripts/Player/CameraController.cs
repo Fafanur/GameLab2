@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
-    public GameObject player;
     Vector2 mouseChange;
     Vector2 smoothAmount;
     public float mouseSensitivity;
@@ -31,7 +29,7 @@ public class CameraController : MonoBehaviour
             mouseChange.y = Mathf.Clamp(mouseChange.y, -65, 65);
 
             transform.localRotation = Quaternion.AngleAxis(-mouseChange.y, Vector3.right);
-            player.transform.localRotation = Quaternion.AngleAxis(mouseChange.x, player.transform.up);
+            PlayerController.playerController.transform.localRotation = Quaternion.AngleAxis(mouseChange.x, PlayerController.playerController.transform.up);
         }
     }
 }

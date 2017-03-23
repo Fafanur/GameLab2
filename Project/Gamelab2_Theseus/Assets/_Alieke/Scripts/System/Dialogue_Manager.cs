@@ -13,7 +13,7 @@ public class Dialogue_Manager : MonoBehaviour {
     private bool stopTyping;
     public GameObject textBox;
 
-    void Awake()
+    void Start()
     {
         lastString = textList.Count - 1;
     }

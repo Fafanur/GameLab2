@@ -11,7 +11,6 @@ public class Load_Manager : MonoBehaviour {
 
     public GameObject canStartText;
 
-	
 	public void LoadScene (string levelToLoad) {
         backGround.SetActive(true);
         progressionBar.gameObject.SetActive(true);

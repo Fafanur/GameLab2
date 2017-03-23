@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
+    public static UI_Manager uiManager;
     [Header("UI Bars")]
     public Image healthBarFiller;
     public Slider experienceBarFiller;
@@ -31,22 +32,29 @@ public class UI_Manager : MonoBehaviour
     public Image gameOverPanel;
     private bool playerDead;
 
-    private PlayerController player;
-    private Experience_Manager xpManager;
-
     public GameObject xp_Particle;
-
     public ItemUI itemUI;
 
     void Awake () {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        strengthText.text = "Strength : " + player.attackDamage;
-        critText.text = "Crit Chance : " + player.critChance;
-        staminaText.text = "Stamina : " + player.maxStamina;
-        healthText.text = "Health : " + player.maxHealth;
-        defenseText.text = "Defense : " + player.defenseAmount;
-        xpManager = GetComponent<Experience_Manager>();
+        if(uiManager == null)
+        {
+            uiManager = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(uiManager != this)
+        {
+            Destroy(this);
+        }
 	}
+
+    void Start()
+    {
+        strengthText.text = "Strength : " + PlayerController.playerController.attackDamage;
+        critText.text = "Crit Chance : " + PlayerController.playerController.critChance;
+        staminaText.text = "Stamina : " + PlayerController.playerController.maxStamina;
+        healthText.text = "Health : " + PlayerController.playerController.maxHealth;
+        defenseText.text = "Defense : " + PlayerController.playerController.defenseAmount;
+    }
 	
 	void Update () {
         HealthBar();
@@ -111,18 +119,18 @@ public class UI_Manager : MonoBehaviour
 
     public void HealthBar()
     {
-        float fillAmount = player.currentHealth / player.maxHealth;
+        float fillAmount = PlayerController.playerController.currentHealth / PlayerController.playerController.maxHealth;
         healthBarFiller.fillAmount = Mathf.Lerp(healthBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
     }
 
     public void StaminaBar()
     {
-        float fillAmount = player.currentStamina / player.maxStamina;
+        float fillAmount = PlayerController.playerController.currentStamina / PlayerController.playerController.maxStamina;
         staminaBarFiller.fillAmount = Mathf.Lerp(staminaBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
     }
 
     public void ExperienceBar(){
-        float fillAmount = xpManager.currentExperience / xpManager.neededExperience;
+        float fillAmount = Experience_Manager.xpManager.currentExperience / Experience_Manager.xpManager.neededExperience;
         experienceBarFiller.value = Mathf.Lerp(experienceBarFiller.value, fillAmount, Time.deltaTime * 5);
         float totalAmount = experienceBarFiller.value + fillAmount;
         if(experienceBarFiller.value != fillAmount)

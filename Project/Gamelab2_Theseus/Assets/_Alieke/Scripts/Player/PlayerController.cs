@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController playerController;
     [Header("Components")]
-    public GameObject gameManager;
     private Rigidbody _rb;
     public Animator headBobAnimator;
     public GameObject statPanel;
@@ -57,6 +57,18 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        if(playerController == null)
+        {
+            playerController = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(playerController != this)
+        {
+            Destroy(this);
+        }
+    }
+
+    void Start(){
         currentHealth = maxHealth;
         currentStamina = maxStamina;
         normalSpeed = moveSpeed;
@@ -71,19 +83,21 @@ public class PlayerController : MonoBehaviour
         {
             if (statPanelOpen)
             {
+                Camera.main.GetComponent<CameraController>().maymoveMouse = true;
+                mayMove = true;
                 statPanel.SetActive(false);
                 statPointsPanel.SetActive(false);
                 statPanelOpen = false;
                 mayAttack = true;
-                Camera.main.GetComponent<CameraController>().maymoveMouse = true;
             }
             else
             {
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;
+                mayMove = false;
                 statPanel.SetActive(true);
                 statPointsPanel.SetActive(true);
-                mayAttack = false;
                 statPanelOpen = true;
+                mayAttack = false;                     
             }
         }
 
@@ -99,6 +113,11 @@ public class PlayerController : MonoBehaviour
         {
             Movement();
             Jump();
+        }
+        else
+        {
+            movingStates = MovingStates.Idle;
+            combatStates = CombatStates.Idle;
         }
 
         switch (movingStates)
@@ -144,8 +163,8 @@ public class PlayerController : MonoBehaviour
         yInput = Input.GetAxis("Vertical");
         _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * moveSpeed * yInput + transform.right * Time.deltaTime * moveSpeed * xInput);
         if (yInput > 0)
-        {
-            movingStates = MovingStates.Walking;
+        {           
+            movingStates = MovingStates.Walking;    
             if (Input.GetButton("Shift"))
             {
                 if (currentStamina > 0)
@@ -254,7 +273,7 @@ public class PlayerController : MonoBehaviour
             {
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;
                 mayMove = false;
-                gameManager.GetComponent<UI_Manager>().GameOverScreen();
+                UI_Manager.uiManager.GameOverScreen();
             }
         }
         return currentHealth;

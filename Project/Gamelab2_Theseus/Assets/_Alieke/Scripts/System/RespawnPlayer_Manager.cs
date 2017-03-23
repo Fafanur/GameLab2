@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class RespawnPlayer_Manager : MonoBehaviour
 {
+    public static RespawnPlayer_Manager respawnManager;
     [Header("Spawn positions")]
     public Transform labyrinthSpawnPos;
     public Transform startPointSpawnPos;
     public Vector3 currentSpawnPoint;
 
-    private GameObject player;
-    private PlayerController plyrController;
-
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        plyrController = player.GetComponent<PlayerController>();
+        if(respawnManager == null)
+        {
+            respawnManager = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(respawnManager != this)
+        {
+            Destroy(this);
+        }
     }
 	
 	public void SetSpawnPoint (string spawnPoint) {
@@ -31,11 +36,11 @@ public class RespawnPlayer_Manager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        player.transform.position = currentSpawnPoint;
-        plyrController.currentHealth = plyrController.maxHealth;
-        plyrController.currentStamina = plyrController.maxStamina;
+        PlayerController.playerController.transform.position = currentSpawnPoint;
+        PlayerController.playerController.currentHealth = PlayerController.playerController.maxHealth;
+        PlayerController.playerController.currentStamina = PlayerController.playerController.maxStamina;
         GetComponent<UI_Manager>().gameOverPanel.gameObject.SetActive(false);
-        plyrController.mayMove = true;
+        PlayerController.playerController.mayMove = true;
         Camera.main.GetComponent<CameraController>().maymoveMouse = true;
     }
 }
