@@ -49,6 +49,6 @@ public class Pause_Manager : MonoBehaviour
     public void QuitButton()
     {
         pausePanel.SetActive(false);
-        GetComponent<Load_Manager>().LoadScene("Main_Menu_test");
+        GetComponent<Load_Manager>().LoadScene("Main_Menu");
     }
 }

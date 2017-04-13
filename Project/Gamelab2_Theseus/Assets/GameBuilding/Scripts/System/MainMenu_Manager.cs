@@ -13,7 +13,7 @@ public class MainMenu_Manager : MonoBehaviour
     public void StartGameButton()
     {
         mainMenuPanel.SetActive(false);
-        GetComponent<Load_Manager>().LoadScene("Making_Scene");
+        GetComponent<Load_Manager>().LoadScene("Level_Island");
     }
 
     public void MainMenuButton()
