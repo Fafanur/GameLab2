@@ -16,19 +16,23 @@ public class Craftable : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider col)
-    {
-        
+    {      
         if (pickup.tag == "Flower" && col.tag == "Player")
         {
             craftManager.pickupFlower++;
+            UI_Manager.uiManager.UpdateCraftables(craftManager.pickupFlower, craftManager.pickupSeaWeed, craftManager.healthyHerb);
+
             Destroy(gameObject);
         }
 
-        if (pickup.tag == "SeaWeed" && col.tag == "Player")
+        if (pickup.tag == "Seaweed" && col.tag == "Player")
         {
             craftManager.pickupSeaWeed++;
+            UI_Manager.uiManager.UpdateCraftables(craftManager.pickupFlower, craftManager.pickupSeaWeed, craftManager.healthyHerb);
+
             Destroy(gameObject);
         }
+       
     }
 }
 

@@ -42,13 +42,13 @@ public class Experience_Manager : MonoBehaviour
         }
     }
 
-	void Update () {
+	/*void Update () {
         if (Input.GetButtonDown("Fire2"))
         {
             currentExperience = currentExperience + 10;
             GotExperience();
         }
-	}
+	}*/
 
     public void GotExperience()
     {

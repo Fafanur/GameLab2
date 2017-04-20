@@ -11,13 +11,13 @@ public class PlayerController : MonoBehaviour
     public Animator headBobAnimator;
     public GameObject statPanel;
     public GameObject statPointsPanel;
-    private Animator ownAnimator;
+    public Animator combatAnimator;
 
     enum MovingStates { Idle, Walking}
     MovingStates movingStates;
 
-    enum CombatStates { Idle, AttackLeft, AttackRight}
-    CombatStates combatStates;
+    public enum CombatStates { Idle, AttackLeft, AttackRight}
+    public CombatStates combatStates;
     
 
     [Header("Movement")]
@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
         normalSpeed = moveSpeed;
         _rb = GetComponent<Rigidbody>();
         headBobAnimator = headBobAnimator.GetComponent<Animator>();
-        ownAnimator = GetComponent<Animator>();
     }
 
     void Update() // Opens the statistics panel
@@ -133,19 +132,19 @@ public class PlayerController : MonoBehaviour
         switch (combatStates)
         {
             case CombatStates.Idle:
-                ownAnimator.SetBool("Idle", true);
-                ownAnimator.SetBool("AttackLeft", false);
-                ownAnimator.SetBool("AttackRight", false);
+                combatAnimator.SetBool("Idle", true);
+                combatAnimator.SetBool("AttackLeft", false);
+                combatAnimator.SetBool("AttackRight", false);
                 break;
             case CombatStates.AttackLeft:
-                ownAnimator.SetBool("AttackLeft", true);
-                ownAnimator.SetBool("Idle", false);
-                ownAnimator.SetBool("AttackRight", false);
+                combatAnimator.SetBool("AttackLeft", true);
+                combatAnimator.SetBool("Idle", false);
+                combatAnimator.SetBool("AttackRight", false);
                 break;
             case CombatStates.AttackRight:
-                ownAnimator.SetBool("AttackRight", true);
-                ownAnimator.SetBool("Idle", false);
-                ownAnimator.SetBool("AttackLeft", false);
+                combatAnimator.SetBool("AttackRight", true);
+                combatAnimator.SetBool("Idle", false);
+                combatAnimator.SetBool("AttackLeft", false);
                 break;
         }
         if (mayAttack)
@@ -163,7 +162,8 @@ public class PlayerController : MonoBehaviour
         yInput = Input.GetAxis("Vertical");
         _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * moveSpeed * yInput + transform.right * Time.deltaTime * moveSpeed * xInput);
         if (yInput > 0)
-        {           
+        {
+            combatAnimator.SetFloat("BobbingMultiplier", 0.7f);
             movingStates = MovingStates.Walking;    
             if (Input.GetButton("Shift"))
             {
@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            combatAnimator.SetFloat("BobbingMultiplier", 0.2f);
             movingStates = MovingStates.Idle;
         }
 
@@ -244,12 +245,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   public void EndAttackAnimation(){
-        if (!Input.GetButton("Fire2"))
-        {
-            combatStates = CombatStates.Idle;
-        }
-    }
+
 
     private  bool CritStrike() //Calculates if attack crits
     {

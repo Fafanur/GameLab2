@@ -8,6 +8,25 @@ public class Pick_Ups : MonoBehaviour {
     public int healthPoints;
     public string itemName;
 
+    public float minRotateSpeed;
+    public float maxRotateSpeed;
+    private Vector3 rotation;
+
+    void Awake()
+    {
+        rotation = new Vector3(Random.Range(minRotateSpeed, maxRotateSpeed), Random.Range(minRotateSpeed, maxRotateSpeed), Random.Range(minRotateSpeed, maxRotateSpeed));
+    }
+
+    void Update()
+    {
+        RotateItem();
+    }
+
+    void RotateItem()
+    {
+        transform.Rotate(rotation * Time.deltaTime);
+    }
+
     void OnMouseUpAsButton()
     {
         UI_Manager.uiManager.GetItem(thisItemNumber, itemName, healthPoints, defensePoints);

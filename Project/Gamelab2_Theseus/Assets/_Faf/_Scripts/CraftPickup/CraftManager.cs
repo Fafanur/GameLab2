@@ -4,40 +4,53 @@ using UnityEngine;
 
 public class CraftManager : MonoBehaviour {
 
-    public float pickupFlower;
-    public float pickupSeaWeed;
-    public float healthPotion; // weet niet zeker waar de healthpotions komen?
+    public int pickupFlower;
+    public int pickupSeaWeed;
+    public int healthyHerb; // weet niet zeker waar de healthpotions komen?
 
-    public float checkCounter;
+    public int checkCounter;
     public bool mayCraft;
+
+    private bool panelActive;
 
 	void Start ()
     {
         mayCraft = false;
 	}
+
 	void Update ()
     {
-        if (pickupFlower > checkCounter && pickupSeaWeed > checkCounter)
+        if (pickupFlower >= checkCounter && pickupSeaWeed >= checkCounter)
         {
             mayCraft = true;
         }
-
-        if (Input.GetButtonDown("ALIEKE MAG KIEZEN"))
+        else
         {
+            mayCraft = false;
+        }
 
-            // hier moet menutje open gaan en dan een leuk knopje met craft 
-            if(mayCraft == true)
+        if (Input.GetButtonDown("Q"))
+        {
+            if (panelActive)
             {
-                Craft();
-            }            
+                UI_Manager.uiManager.craftPanel.SetActive(true);
+                panelActive = false;
+            }
+            else
+            {
+                UI_Manager.uiManager.craftPanel.SetActive(false);
+                panelActive = true;
+            }         
         }      
     }
 
-    void Craft()
+    public void Craft()
     {
-        pickupFlower -= checkCounter;
-        pickupSeaWeed -= checkCounter;
-        healthPotion += 1f;
-
+        if (mayCraft) { 
+            pickupFlower -= checkCounter;
+            pickupSeaWeed -= checkCounter;
+            healthyHerb++;
+            UI_Manager.uiManager.UpdateCraftables(pickupFlower, pickupSeaWeed, healthyHerb);
+        }
     }
 }

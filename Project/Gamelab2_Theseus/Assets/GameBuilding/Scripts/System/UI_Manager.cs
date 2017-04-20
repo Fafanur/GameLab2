@@ -35,6 +35,12 @@ public class UI_Manager : MonoBehaviour
     public GameObject xp_Particle;
     public ItemUI itemUI;
 
+    [Header("Crafting")]
+    public GameObject craftPanel;
+    public Text seaweedText;
+    public Text flowerText;
+    public Text healthyHerbsText;
+
     void Awake () {
         if(uiManager == null)
         {
@@ -67,6 +73,13 @@ public class UI_Manager : MonoBehaviour
            col += 2.5f * Time.deltaTime;
         }
 	}
+
+    public void UpdateCraftables(int flowerAmount, int seaweedAmount, int healthHerbsAmount)
+    {
+        flowerText.text = "Flower : " + flowerAmount.ToString();
+        seaweedText.text = "Seaweed : " + seaweedAmount.ToString();
+        healthyHerbsText.text = "Healthy Herb : " + healthHerbsAmount.ToString();
+    }
 
     public void GetItem(int slotNumber, string itemName, int healthPoints, int defensePoints)
     {

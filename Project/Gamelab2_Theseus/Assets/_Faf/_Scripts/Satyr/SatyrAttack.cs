@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SatyrAttack : MonoBehaviour
 {
-    public SatyrManager satyrManager;
+    private SatyrManager satyrManager;
     public Transform attackTarget;
-    public Transform myTransform;
+    private Transform myTransform;
     public float attackRate = 1;
     private float nextAttack;
     public float attackRange = 3.5f;
@@ -16,7 +16,7 @@ public class SatyrAttack : MonoBehaviour
 	void Start()
     {
         satyrManager = GetComponent<SatyrManager>();
-        myTransform = transform;
+        myTransform = transform; //Waarom eigen transform zoeken.
         attackTarget = satyrManager.targetPlayer;
         
     }
@@ -27,7 +27,7 @@ public class SatyrAttack : MonoBehaviour
 
     }
 
-    void SetAttackTarget(Transform targetTransform)
+    void SetAttackTarget(Transform targetTransform) //why tho
     {
         attackTarget = targetTransform;
 

@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Enemy stopt niet met chasen als player te verweg is
+//Enemy duwt de speler weg
+
+//De target is altijd hetzelfde dus waarom die niet static maken inplaats van in beide script aanroepen idee? maybe idk
+
 public class SatyrManager : MonoBehaviour {
     public enum Enemystates { IdlePatrol, Aggroed, Fleeing, Idle };
     public enum AttackStates { Attacking, Stop };
@@ -10,8 +15,7 @@ public class SatyrManager : MonoBehaviour {
     public AttackStates attackState;
 
     public Transform targetPlayer;
-    public PlayerController playerController;
-    public SatyrAttack satyrAttack;
+    private SatyrAttack satyrAttack;
 
     [Header("NavMeshComponents")]
     public Transform[] waypoints;
@@ -22,7 +26,7 @@ public class SatyrManager : MonoBehaviour {
     public float curHealth;
     public float maxHealth;
     public float regenAmount;
-    public bool dead;
+    public bool dead; //Waarvoor een bool alsof ze dood zijn. Wanneer ze dood zijn worden ze toch destroyed.
 
     [Header("MovementComponents")]
     public float speed;
@@ -37,7 +41,6 @@ public class SatyrManager : MonoBehaviour {
     void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        playerController = targetPlayer.GetComponent<PlayerController>();
         satyrAttack = GetComponent<SatyrAttack>();
 
         agent.autoBraking = false;
