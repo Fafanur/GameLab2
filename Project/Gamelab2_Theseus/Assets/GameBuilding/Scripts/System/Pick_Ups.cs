@@ -27,10 +27,10 @@ public class Pick_Ups : MonoBehaviour {
         transform.Rotate(rotation * Time.deltaTime);
     }
 
-    void OnMouseUpAsButton()
+    void OnMouseDown()
     {
         UI_Manager.uiManager.GetItem(thisItemNumber, itemName, healthPoints, defensePoints);
-       Inventory_Manager.invManager.SetItemStats(thisItemNumber, defensePoints, healthPoints);
+        Inventory_Manager.invManager.SetItemStats(thisItemNumber, defensePoints, healthPoints);
         Destroy(gameObject);
     }
 }

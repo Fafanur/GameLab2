@@ -144,7 +144,7 @@ public class UI_Manager : MonoBehaviour
 
     public void ExperienceBar(){
         float fillAmount = Experience_Manager.xpManager.currentExperience / Experience_Manager.xpManager.neededExperience;
-        experienceBarFiller.value = Mathf.Lerp(experienceBarFiller.value, fillAmount, Time.deltaTime * 5);
+        experienceBarFiller.value = Mathf.Lerp(experienceBarFiller.value, fillAmount, Time.deltaTime * 2);
         float totalAmount = experienceBarFiller.value + fillAmount;
         if(experienceBarFiller.value != fillAmount)
         {

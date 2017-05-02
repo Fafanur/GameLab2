@@ -33,11 +33,15 @@ public class CraftManager : MonoBehaviour {
         {
             if (panelActive)
             {
+                PlayerController.playerController.cursorLocked = false;
+                Cursor.lockState = CursorLockMode.Confined;
+                Camera.main.GetComponent<CameraController>().maymoveMouse = false;
                 UI_Manager.uiManager.craftPanel.SetActive(true);
                 panelActive = false;
             }
-            else
-            {
+            else {
+                PlayerController.playerController.cursorLocked = true;
+                Camera.main.GetComponent<CameraController>().maymoveMouse = true;
                 UI_Manager.uiManager.craftPanel.SetActive(false);
                 panelActive = true;
             }         

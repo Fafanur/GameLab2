@@ -55,6 +55,14 @@ public class PlayerController : MonoBehaviour
     private bool statPanelOpen;
     public bool mayMove;
 
+    public Transform pos1;
+    public Transform pos2;
+
+    RaycastHit hit;
+    public float raydis;
+
+    public bool cursorLocked;
+
     void Awake()
     {
         if(playerController == null)
@@ -68,7 +76,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Start(){
+    void Start()
+    {
+        CheckCursorState();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
         normalSpeed = moveSpeed;
@@ -82,6 +92,7 @@ public class PlayerController : MonoBehaviour
         {
             if (statPanelOpen)
             {
+                cursorLocked = true;
                 Camera.main.GetComponent<CameraController>().maymoveMouse = true;
                 mayMove = true;
                 statPanel.SetActive(false);
@@ -91,6 +102,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                cursorLocked = false;
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;
                 mayMove = false;
                 statPanel.SetActive(true);
@@ -99,11 +111,7 @@ public class PlayerController : MonoBehaviour
                 mayAttack = false;                     
             }
         }
-
-        if (Input.GetButtonDown("o"))
-        {
-            GetHit(50);
-        }
+        CheckCursorState();
     }
 
     void FixedUpdate()
@@ -243,9 +251,29 @@ public class PlayerController : MonoBehaviour
                 combatStates = CombatStates.AttackRight;
             }
         }
+
+        if(Physics.Raycast(transform.position,Vector3.forward, out hit, raydis))
+        {
+            if(hit.transform.tag == "Enemy")
+            {
+                hit.transform.GetComponent<SatyrManager>().curHealth -= attackDamage;
+            }
+        }
     }
 
-
+    public void CheckCursorState()
+    {
+        if (cursorLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 
     private  bool CritStrike() //Calculates if attack crits
     {

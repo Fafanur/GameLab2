@@ -83,6 +83,8 @@ public class SatyrManager : MonoBehaviour {
         {
             attackState = AttackStates.Stop;
             print("enemy is dead");
+            Experience_Manager.xpManager.currentExperience += 100;
+            Experience_Manager.xpManager.GotExperience();
             Destroy(gameObject);
             // dood
         }
@@ -107,6 +109,7 @@ public class SatyrManager : MonoBehaviour {
         {
             moveState = Enemystates.Aggroed;
         }
+        
     }
 
     void Aggro()
