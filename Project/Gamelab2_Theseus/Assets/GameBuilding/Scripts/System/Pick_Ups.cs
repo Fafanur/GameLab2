@@ -29,8 +29,21 @@ public class Pick_Ups : MonoBehaviour {
 
     void OnMouseDown()
     {
-        UI_Manager.uiManager.GetItem(thisItemNumber, itemName, healthPoints, defensePoints);
-        Inventory_Manager.invManager.SetItemStats(thisItemNumber, defensePoints, healthPoints);
-        Destroy(gameObject);
+        if (gameObject.tag == "Flower")
+        {
+            CraftManager.craftManager.pickupFlower++;
+            Destroy(gameObject);
+        }
+        else if (gameObject.tag == "Seaweed")
+        {
+            CraftManager.craftManager.pickupSeaWeed++;
+            Destroy(gameObject);
+        }
+        else
+        {
+            UI_Manager.uiManager.GetItem(thisItemNumber, itemName, healthPoints, defensePoints);
+            Inventory_Manager.invManager.SetItemStats(thisItemNumber, defensePoints, healthPoints);
+            Destroy(gameObject);
+        }
     }
 }

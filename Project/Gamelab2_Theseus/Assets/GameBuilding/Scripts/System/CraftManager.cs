@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CraftManager : MonoBehaviour {
 
+    public static CraftManager craftManager;
     public int pickupFlower;
     public int pickupSeaWeed;
     public int healthyHerb; // weet niet zeker waar de healthpotions komen?
@@ -13,6 +14,19 @@ public class CraftManager : MonoBehaviour {
 
     private bool panelActive;
 
+
+    void Awake ()
+    {
+        if(craftManager == null)
+        {
+            craftManager = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(craftManager != this)
+        {
+            Destroy(this);
+        }
+    }
 	void Start ()
     {
         mayCraft = false;
@@ -33,6 +47,7 @@ public class CraftManager : MonoBehaviour {
         {
             if (panelActive)
             {
+                UI_Manager.uiManager.UpdateCraftables(pickupFlower, pickupSeaWeed, healthyHerb);
                 PlayerController.playerController.cursorLocked = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;

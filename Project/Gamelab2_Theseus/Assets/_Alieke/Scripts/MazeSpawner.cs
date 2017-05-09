@@ -6,16 +6,9 @@ public class MazeSpawner : MonoBehaviour
 {
     public Texture2D mazeMap;
 
-    public GameObject wall_ver;
-    public GameObject wall_ver_broken;
-
-    public GameObject wall_hor;
-    public GameObject wall_hor_broken;
-
-    public float breakRate;
-
-
+    public Walls wallPrefabs;
     public GameObject pillar;
+    public float breakRate;
 
     GameObject spawnedObject;
 
@@ -23,7 +16,6 @@ public class MazeSpawner : MonoBehaviour
     {
         GenerateMaze();
     }
-
 
     public void GenerateMaze()
     {
@@ -33,11 +25,14 @@ public class MazeSpawner : MonoBehaviour
             {
                 if(mazeMap.GetPixel(x,y).r == 1)
                 {
-                    spawnedObject = (GameObject)Instantiate(wall_hor, new Vector3(x * 1.5f, 0, y * 1.5f), Quaternion.identity);
+                    GameObject wall = PickPrefab();
+                    spawnedObject = (GameObject)Instantiate(wall, new Vector3(x * 1.5f, 0, y * 1.5f), Quaternion.identity);
                 } 
                 if(mazeMap.GetPixel(x,y).g == 1)
                 {
-                    spawnedObject = (GameObject)Instantiate(wall_ver, new Vector3(x * 1.5f, 0, y * 1.5f), Quaternion.identity);
+                    GameObject wall = PickPrefab();
+                    spawnedObject = (GameObject)Instantiate(wall, new Vector3(x * 1.5f, 0, y * 1.5f), Quaternion.identity);
+                    spawnedObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
                 }
                 if (mazeMap.GetPixel(x, y).b == 1)
                 {
@@ -47,4 +42,26 @@ public class MazeSpawner : MonoBehaviour
         }
     }
 	
+    public GameObject PickPrefab()
+    {
+        GameObject prefab;
+        int number = Random.Range(0, 100);
+        if(number < breakRate)
+        {
+            number = Random.Range(0, wallPrefabs.brokenWalls.Count);
+            prefab = wallPrefabs.brokenWalls[number];
+        }
+        else
+        {
+            prefab = wallPrefabs.normalWall;
+        }
+        return prefab;
+    }
+}
+
+[System.Serializable]
+public class Walls
+{
+    public List<GameObject> brokenWalls = new List<GameObject>();
+    public GameObject normalWall;
 }
