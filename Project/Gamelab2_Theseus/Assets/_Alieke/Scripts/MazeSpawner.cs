@@ -48,12 +48,13 @@ public class MazeSpawner : MonoBehaviour
         int number = Random.Range(0, 100);
         if(number < breakRate)
         {
-            number = Random.Range(0, wallPrefabs.brokenWalls.Count);
+            number = Random.Range(0, wallPrefabs.brokenWalls.Length);
             prefab = wallPrefabs.brokenWalls[number];
         }
         else
         {
-            prefab = wallPrefabs.normalWall;
+            number = Random.Range(0, wallPrefabs.normalWalls.Length);
+            prefab = wallPrefabs.normalWalls[number];
         }
         return prefab;
     }
@@ -62,6 +63,6 @@ public class MazeSpawner : MonoBehaviour
 [System.Serializable]
 public class Walls
 {
-    public List<GameObject> brokenWalls = new List<GameObject>();
-    public GameObject normalWall;
+    public GameObject[] brokenWalls;
+    public GameObject[] normalWalls;
 }

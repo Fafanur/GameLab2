@@ -55,9 +55,6 @@ public class PlayerController : MonoBehaviour
     private bool statPanelOpen;
     public bool mayMove;
 
-    public Transform pos1;
-    public Transform pos2;
-
     RaycastHit hit;
     public float raydis;
 
@@ -140,18 +137,18 @@ public class PlayerController : MonoBehaviour
         switch (combatStates)
         {
             case CombatStates.Idle:
-                combatAnimator.SetBool("Idle", true);
+                combatAnimator.SetBool("Bobbing", true);
                 combatAnimator.SetBool("AttackLeft", false);
                 combatAnimator.SetBool("AttackRight", false);
                 break;
             case CombatStates.AttackLeft:
                 combatAnimator.SetBool("AttackLeft", true);
-                combatAnimator.SetBool("Idle", false);
+                combatAnimator.SetBool("Bobbing", false);
                 combatAnimator.SetBool("AttackRight", false);
                 break;
             case CombatStates.AttackRight:
                 combatAnimator.SetBool("AttackRight", true);
-                combatAnimator.SetBool("Idle", false);
+                combatAnimator.SetBool("Bobbing", false);
                 combatAnimator.SetBool("AttackLeft", false);
                 break;
         }
