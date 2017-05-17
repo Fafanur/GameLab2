@@ -29,6 +29,8 @@ public class Experience_Manager : MonoBehaviour
     public float defenseScale;
     public float blockScale;
 
+    public GameObject statPanel;
+
     void Awake()
     {
         if(xpManager == null)
@@ -42,23 +44,30 @@ public class Experience_Manager : MonoBehaviour
         }
     }
 
-	/*void Update () {
+	void Update () {
         if (Input.GetButtonDown("Fire2"))
         {
-            currentExperience = currentExperience + 10;
+            currentExperience = currentExperience + 25;
             GotExperience();
         }
-	}*/
+	}
+
+    public void OpenStats()
+    {
+        PlayerController.playerController.cursorLocked = true;
+        Camera.main.GetComponent<CameraController>().maymoveMouse = true;
+        PlayerController.playerController.mayMove = true;
+        statPanel.SetActive(true);
+    }
 
     public void GotExperience()
     {
         if(currentExperience > neededExperience)
         {
-            UI_Manager.uiManager.experienceBarFiller.value = 0;
+            UI_Manager.uiManager.experienceBarFiller.fillAmount = 0;
             currentLevel++;
             experiencePoints++;
-            UI_Manager.uiManager.SetTotalPoints(experiencePoints);
-            UI_Manager.uiManager.levelText.text = "Level : " + currentLevel.ToString();
+            UI_Manager.uiManager.levelText.text = currentLevel.ToString();
             currentExperience = currentExperience - neededExperience;
             neededExperience = neededExperience * experienceScale;
             neededExperience = Mathf.Round(neededExperience);
@@ -75,7 +84,6 @@ public class Experience_Manager : MonoBehaviour
             PlayerController.playerController.attackDamage *= strenghtScale;
             PlayerController.playerController.critDamage += critDmgScale;
             UI_Manager.uiManager.SetStrengthStats(PlayerController.playerController.attackDamage, strength);
-            UI_Manager.uiManager.SetTotalPoints(experiencePoints);
         }
     }
 
@@ -87,7 +95,6 @@ public class Experience_Manager : MonoBehaviour
             experiencePoints--;
             PlayerController.playerController.critChance += critScale;
             UI_Manager.uiManager.SetCritStats(PlayerController.playerController.critChance, critChance);
-            UI_Manager.uiManager.SetTotalPoints(experiencePoints);
         }
     }
 
@@ -100,12 +107,12 @@ public class Experience_Manager : MonoBehaviour
             PlayerController.playerController.maxStamina *= stamineScale;
             PlayerController.playerController.currentStamina += PlayerController.playerController.maxStamina + PlayerController.playerController.currentStamina;
             UI_Manager.uiManager.SetStaminaStats(PlayerController.playerController.maxStamina, stamina);
-            UI_Manager.uiManager.SetTotalPoints(experiencePoints);
         }
     }
 
     public void AddHealth()
     {
+       
         if (experiencePoints > 0)
         {
             health++;
@@ -113,7 +120,6 @@ public class Experience_Manager : MonoBehaviour
             PlayerController.playerController.maxHealth *= healthScale;
             PlayerController.playerController.currentHealth += PlayerController.playerController.maxHealth + PlayerController.playerController.currentHealth;
             UI_Manager.uiManager.SetHealthStats(PlayerController.playerController.maxHealth, health);
-            UI_Manager.uiManager.SetTotalPoints(experiencePoints);
         }
     }
 
@@ -126,7 +132,6 @@ public class Experience_Manager : MonoBehaviour
             PlayerController.playerController.defenseAmount += defenseScale;
             PlayerController.playerController.blockChance += blockScale;
             UI_Manager.uiManager.SetDefenseStats(PlayerController.playerController.defenseAmount, defense);
-            UI_Manager.uiManager.SetTotalPoints(experiencePoints);
         }
     }
 }

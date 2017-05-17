@@ -9,7 +9,7 @@ public class UI_Manager : MonoBehaviour
     public static UI_Manager uiManager;
     [Header("UI Bars")]
     public Image healthBarFiller;
-    public Slider experienceBarFiller;
+    public Image experienceBarFiller;
     public Image staminaBarFiller;
 
     [Header("Statistic text")]
@@ -21,19 +21,21 @@ public class UI_Manager : MonoBehaviour
     public Text levelText;
 
     [Header("Statistic Points")]
-    public Text strengthPoints;
-    public Text critPoints;
-    public Text staminaPoints;
-    public Text healthPoints;
-    public Text defensePoints;
-    public Text totalPoints;
+    public Text strengthPointsText;
+    private int strengthPoints = 0;
+    public Text critPointsText;
+    private int critPoints = 0;
+    public Text staminaPointsText;
+    private int staminaPoints = 0;
+    public Text healthPointsText;
+    private int hpPoints = 0;
+    public Text defensePointsText;
+    private int defensePoints = 0;
+
 
     [Header("Game Over")]
     public Image gameOverPanel;
     private bool playerDead;
-
-    public GameObject xp_Particle;
-    public ItemUI itemUI;
 
     [Header("Crafting")]
     public GameObject craftPanel;
@@ -55,11 +57,12 @@ public class UI_Manager : MonoBehaviour
 
     void Start()
     {
-        strengthText.text = "Strength : " + PlayerController.playerController.attackDamage;
+        /*strengthText.text = "Strength : " + PlayerController.playerController.attackDamage;
         critText.text = "Crit Chance : " + PlayerController.playerController.critChance;
-        staminaText.text = "Stamina : " + PlayerController.playerController.maxStamina;
-        healthText.text = "Health : " + PlayerController.playerController.maxHealth;
-        defenseText.text = "Defense : " + PlayerController.playerController.defenseAmount;
+        staminaText.text = "Stamina : " + PlayerController.playerController.maxStamina;*/
+        healthText.text = PlayerController.playerController.maxHealth.ToString();
+        healthPointsText.text = "(0)";
+        //defenseText.text = "Defense : " + PlayerController.playerController.defenseAmount;
     }
 	
 	void Update () {
@@ -83,10 +86,10 @@ public class UI_Manager : MonoBehaviour
 
     public void GetItem(int slotNumber, string itemName, int healthPoints, int defensePoints)
     {
-        itemUI.inventorySlots[slotNumber].color = Color.yellow;
+        /*itemUI.inventorySlots[slotNumber].color = Color.yellow;
         string text  = itemName + "@Health + " + healthPoints.ToString() + "@Defense + " + defensePoints.ToString();
         text = text.Replace("@",  System.Environment.NewLine);
-        itemUI.itemText[slotNumber].text = text;
+        itemUI.itemText[slotNumber].text = text;*/
     }
 
     public void GameOverScreen()
@@ -97,37 +100,33 @@ public class UI_Manager : MonoBehaviour
 
     public void SetStrengthStats(float stat, float points)
     {
-        strengthText.text = "Strength : " + Mathf.Round(stat);
-        strengthPoints.text = points.ToString();
+        strengthText.text = Mathf.Round(stat).ToString();
+        strengthPointsText.text = "(" + points.ToString() + ")";
     }
 
     public void SetCritStats(float stat, float points)
     {
-        critText.text = "Crit chance : " + Mathf.Round(stat);
-        critPoints.text = points.ToString();
+        critText.text =Mathf.Round(stat).ToString();
+        critPointsText.text = "(" + points.ToString() + ")";
     }
 
     public void SetStaminaStats(float stat, float points)
     {
-        staminaText.text = "Stamina : " + Mathf.Round(stat);
-        staminaPoints.text = points.ToString();
+        staminaText.text = Mathf.Round(stat).ToString();
+        staminaPointsText.text = "(" + points.ToString() + ")";
     }
 
     public void SetHealthStats(float stat, float points)
     {
-        healthText.text = "Health : " + Mathf.Round(stat);
-        healthPoints.text = points.ToString();
+        healthText.text = Mathf.Round(stat).ToString();
+        healthPointsText.text = "(" + points.ToString() + ")";
     }
 
-    public void SetDefenseStats(float stat, float points)
+    public void SetDefenseStats(float stat,float points)
     {
-        defenseText.text = "Defense : " + Mathf.Round(stat);
-        defensePoints.text = points.ToString();
-    }
-
-    public void SetTotalPoints(int points)
-    {
-        totalPoints.text = "Points : " + points.ToString();
+        defenseText.text = Mathf.Round(stat).ToString();
+        defensePoints++;
+        defensePointsText.text = "(" + points.ToString() + ")";
     }
 
     public void HealthBar()
@@ -144,19 +143,8 @@ public class UI_Manager : MonoBehaviour
 
     public void ExperienceBar(){
         float fillAmount = Experience_Manager.xpManager.currentExperience / Experience_Manager.xpManager.neededExperience;
-        experienceBarFiller.value = Mathf.Lerp(experienceBarFiller.value, fillAmount, Time.deltaTime * 2);
-        float totalAmount = experienceBarFiller.value + fillAmount;
-        if(experienceBarFiller.value != fillAmount)
-        {
-            xp_Particle.SetActive(true);
-        }
+        experienceBarFiller.fillAmount = Mathf.Lerp(experienceBarFiller.fillAmount, fillAmount, Time.deltaTime * 2);
+        float totalAmount = experienceBarFiller.fillAmount + fillAmount;
     }
-}
-
-[System.Serializable]
-public class ItemUI
-{
-    public List<Image> inventorySlots = new List<Image>();
-    public List<Text> itemText = new List<Text>();
 }
 

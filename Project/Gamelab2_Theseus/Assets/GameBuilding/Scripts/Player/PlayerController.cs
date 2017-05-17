@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        CheckCursorState();
+        //CheckCursorState();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
         normalSpeed = moveSpeed;
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
                 mayAttack = false;                     
             }
         }
-        CheckCursorState();
+        //CheckCursorState();
     }
 
     void FixedUpdate()
