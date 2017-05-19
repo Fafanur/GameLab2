@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class Inventory_Manager : MonoBehaviour {
+public class Inventory_Manager : MonoBehaviour
+{
     public static Inventory_Manager invManager;
 
     void Awake()
