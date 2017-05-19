@@ -57,12 +57,12 @@ public class UI_Manager : MonoBehaviour
 
     void Start()
     {
-        /*strengthText.text = "Strength : " + PlayerController.playerController.attackDamage;
-        critText.text = "Crit Chance : " + PlayerController.playerController.critChance;
-        staminaText.text = "Stamina : " + PlayerController.playerController.maxStamina;*/
-        healthText.text = PlayerController.playerController.maxHealth.ToString();
+        strengthText.text = PlayerController.playerController.attackDamage.ToString();
+        critText.text = PlayerController.playerController.critChance.ToString() ;
+        staminaText.text = PlayerController.playerController.maxStamina.ToString();
+        healthText.text = PlayerController.playerController.maxHealth.ToString().ToString();
         healthPointsText.text = "(0)";
-        //defenseText.text = "Defense : " + PlayerController.playerController.defenseAmount;
+        defenseText.text = PlayerController.playerController.defenseAmount.ToString();
     }
 	
 	void Update () {

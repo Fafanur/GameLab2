@@ -8,6 +8,7 @@ public class RespawnPlayer_Manager : MonoBehaviour
     [Header("Spawn positions")]
     public Transform labyrinthSpawnPos;
     public Transform startPointSpawnPos;
+    public Transform startPos;
     public Vector3 currentSpawnPoint;
 
     void Awake()
@@ -21,6 +22,12 @@ public class RespawnPlayer_Manager : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    void Start()
+    {
+        currentSpawnPoint = startPos.position;
+        PlayerController.playerController.transform.position = startPos.position;
     }
 	
 	public void SetSpawnPoint (string spawnPoint) {

@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     private Rigidbody _rb;
     public Animator headBobAnimator;
-    public GameObject statPanel;
-    public GameObject statPointsPanel;
     public Animator combatAnimator;
 
     enum MovingStates { Idle, Walking}
@@ -43,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public float maxStamina;
     public float staminaDrain;
     public float staminaRecover;
+    private bool mayRun = true;
 
     [Header("Health")]
     public float currentHealth;
@@ -52,7 +51,6 @@ public class PlayerController : MonoBehaviour
     public float blockChance;
     public float defenseAmount;
 
-    private bool statPanelOpen;
     public bool mayMove;
 
     RaycastHit hit;
@@ -75,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        //CheckCursorState();
+        CheckCursorState();
         currentHealth = maxHealth;
         currentStamina = maxStamina;
         normalSpeed = moveSpeed;
@@ -83,32 +81,21 @@ public class PlayerController : MonoBehaviour
         headBobAnimator = headBobAnimator.GetComponent<Animator>();
     }
 
-    void Update() // Opens the statistics panel
+    void Update() 
     {
-        if (Input.GetButtonDown("Open Stats"))
+        if (Input.GetButtonDown("Alt"))
         {
-            if (statPanelOpen)
-            {
-                cursorLocked = true;
-                Camera.main.GetComponent<CameraController>().maymoveMouse = true;
-                mayMove = true;
-                statPanel.SetActive(false);
-                statPointsPanel.SetActive(false);
-                statPanelOpen = false;
-                mayAttack = true;
-            }
-            else
+            if (cursorLocked)
             {
                 cursorLocked = false;
-                Camera.main.GetComponent<CameraController>().maymoveMouse = false;
-                mayMove = false;
-                statPanel.SetActive(true);
-                statPointsPanel.SetActive(true);
-                statPanelOpen = true;
-                mayAttack = false;                     
             }
+            else if(!cursorLocked)
+            {
+                cursorLocked = true;
+            }
+            
         }
-        //CheckCursorState();
+        CheckCursorState();
     }
 
     void FixedUpdate()
@@ -172,12 +159,25 @@ public class PlayerController : MonoBehaviour
             movingStates = MovingStates.Walking;    
             if (Input.GetButton("Shift"))
             {
-                if (currentStamina > 0)
+                if (currentStamina > 0 && mayRun)
                 {
                     moveSpeed += accelerationSpeed * Time.deltaTime;
-                    Mathf.Clamp(moveSpeed, 0, maxSpeed);
+                    moveSpeed = Mathf.Clamp(moveSpeed, 0, maxSpeed);
                     currentStamina -= staminaDrain * Time.deltaTime;
                 }
+                else
+                {
+                    mayRun = false;
+                    moveSpeed -= accelerationSpeed * Time.deltaTime;
+                    moveSpeed = Mathf.Clamp(moveSpeed, normalSpeed, maxSpeed);
+                }
+            }
+            else
+            {
+                moveSpeed -= accelerationSpeed * Time.deltaTime;
+                moveSpeed = Mathf.Clamp(moveSpeed, normalSpeed, maxSpeed);
+                currentStamina += staminaRecover * Time.deltaTime;
+                currentStamina = Mathf.Clamp(currentStamina, 0, 100);
             }
         }
         else if (moveSpeed > normalSpeed)
@@ -190,9 +190,15 @@ public class PlayerController : MonoBehaviour
             movingStates = MovingStates.Idle;
         }
 
+        if(currentStamina > 15)
+        {
+            mayRun = true;
+        }
+
         if (currentStamina < maxStamina && !Input.GetButtonDown("Shift"))
         {
             currentStamina += staminaRecover * Time.deltaTime;
+            currentStamina = Mathf.Clamp(currentStamina, 0, 100);
         }
 
         if (Physics.Raycast(transform.position, -transform.up, heightRayDis))

@@ -30,6 +30,7 @@ public class Experience_Manager : MonoBehaviour
     public float blockScale;
 
     public GameObject statPanel;
+    private bool openStats = false;
 
     void Awake()
     {
@@ -44,20 +45,30 @@ public class Experience_Manager : MonoBehaviour
         }
     }
 
-	void Update () {
+	/*void Update () {
         if (Input.GetButtonDown("Fire2"))
         {
             currentExperience = currentExperience + 25;
             GotExperience();
         }
-	}
+	}*/
 
-    public void OpenStats()
+    public void OpenCloseStats()
     {
-        PlayerController.playerController.cursorLocked = true;
-        Camera.main.GetComponent<CameraController>().maymoveMouse = true;
-        PlayerController.playerController.mayMove = true;
-        statPanel.SetActive(true);
+        if (openStats)
+        {
+            Camera.main.GetComponent<CameraController>().maymoveMouse = true;
+            PlayerController.playerController.mayMove = true;
+            statPanel.SetActive(false);
+            openStats = false;
+        }
+        else
+        {
+            Camera.main.GetComponent<CameraController>().maymoveMouse = false;
+            PlayerController.playerController.mayMove = false;
+            statPanel.SetActive(true);
+            openStats = true;
+        }
     }
 
     public void GotExperience()
