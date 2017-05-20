@@ -8,6 +8,7 @@ public class QuestClass
     public int questID;
     public string questName;
     public string questDescription;
+    public string questObjective;
     public enum QuestType
     {
         Fetch,
@@ -30,4 +31,5 @@ public class QuestClass
     public int requiredItemID;
     public int rewardItemID;
     public int expReward;
+    public bool unfolded;
 }

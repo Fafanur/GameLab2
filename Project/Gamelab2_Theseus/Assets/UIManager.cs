@@ -19,10 +19,8 @@ public class UIManager : MonoBehaviour
     GameObject spawnedQuestPanel;
     public GameObject questPanel;
     public Transform questPanelPlace;
-    public int activeQuest;
+    public int unfoldedQuests;
     public List<GameObject> questPanels = new List<GameObject>();
-    public float questPanelxPos;
-    bool unfolded;
 
 
 
@@ -38,39 +36,41 @@ public class UIManager : MonoBehaviour
         ShowQuests();
     }
 
-    void Update()
-    {
-        questPanelPlace.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(questPanelPlace.GetComponent<RectTransform>().anchoredPosition, new Vector3(
-            questPanelxPos,
-            questPanelPlace.GetComponent<RectTransform>().anchoredPosition.y),
-            10 * Time.deltaTime);
-        ;
-    }
+
 
     public void ShowQuests()
     {
-        for(int i = 0;  i < questManager.activeQuests.Count; i++)
+        //remove current panels so we don't get duplicates. bai bai c:
+        foreach(GameObject questPanel in questPanels )
+        {
+            Destroy(questPanel);
+        }
+        questPanels.Clear();
+
+
+        //reset the counter before the for-loop c:
+        unfoldedQuests = 0;
+
+        //now we make the panels c:
+        for (int i = 0; i < questManager.activeQuests.Count; i++)
         {
             spawnedQuestPanel = (GameObject)Instantiate(questPanel);
             spawnedQuestPanel.transform.SetParent(questPanelPlace);
             spawnedQuestPanel.GetComponent<RectTransform>().localScale = Vector3.one;
 
-            spawnedQuestPanel.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, i * -50, 0);
+            spawnedQuestPanel.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, (i * -30) + (unfoldedQuests * -55), 0);
             spawnedQuestPanel.GetComponent<QuestPanel>().FillPanel(i);
             spawnedQuestPanel.GetComponent<QuestPanel>().panelID = i;
-            questPanels.Add(spawnedQuestPanel);
-        }
-    }
+            spawnedQuestPanel.GetComponent<QuestPanel>().ui = this;
 
-    public void Unfold()
-    {
-        if(unfolded)
-        {
-            questPanelxPos = 0;
-        }
-        else
-        {
-            questPanelxPos = 10;
+            //we need to know foldstate and keep track of it for the position of the panel c:
+            if (questManager.activeQuests[i].unfolded)
+            {
+                unfoldedQuests++;
+            }
+
+            //Add the panels to a list so we can destroy them all at once c:
+            questPanels.Add(spawnedQuestPanel);
         }
     }
 }
