@@ -1,17 +1,15 @@
 fileFormatVersion: 2
-guid: 5848233564c75e74cbb1188646cecefe
-timeCreated: 1491595174
+guid: 992ddbea8d418574ca5439d469efce55
+timeCreated: 1495300361
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: default
-    100002: //RootNode
-    400000: default
-    400002: //RootNode
-    2300000: default
-    3300000: default
-    4300000: default
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Arch
   materials:
     importMaterials: 1
     materialName: 0
@@ -36,7 +34,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1.4
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
