@@ -41,7 +41,6 @@ public class Pick_Ups : MonoBehaviour {
         }
         else
         {
-            UI_Manager.uiManager.GetItem(thisItemNumber, itemName, healthPoints, defensePoints);
             Inventory_Manager.invManager.SetItemStats(thisItemNumber, defensePoints, healthPoints);
             Destroy(gameObject);
         }

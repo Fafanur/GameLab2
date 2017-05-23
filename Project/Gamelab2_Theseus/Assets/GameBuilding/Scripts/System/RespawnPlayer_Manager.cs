@@ -46,7 +46,7 @@ public class RespawnPlayer_Manager : MonoBehaviour
         PlayerController.playerController.transform.position = currentSpawnPoint;
         PlayerController.playerController.currentHealth = PlayerController.playerController.maxHealth;
         PlayerController.playerController.currentStamina = PlayerController.playerController.maxStamina;
-        GetComponent<UI_Manager>().gameOverPanel.gameObject.SetActive(false);
+       // GetComponent<UI_Manager>().gameOverPanel.gameObject.SetActive(false);
         PlayerController.playerController.mayMove = true;
         Camera.main.GetComponent<CameraController>().maymoveMouse = true;
     }

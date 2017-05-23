@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Experience_Manager : MonoBehaviour
 {
@@ -29,7 +30,23 @@ public class Experience_Manager : MonoBehaviour
     public float defenseScale;
     public float blockScale;
 
+    [Header("StatTexts")]
+    public Text strengthText;
+    public Text staminaText;
+    public Text healthText;
+    public Text defenseText;
+    public Text critText;
+    public Text levelText;
+
+    [Header("StatPoints")]
+    public Text strengthPoints;
+    public Text staminaPoints;
+    public Text healthPoints;
+    public Text defensePoints;
+    public Text critPoints;
+
     public GameObject statPanel;
+    private UIManager uiManager;
     private bool openStats = false;
 
     void Awake()
@@ -43,6 +60,16 @@ public class Experience_Manager : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    void Start ()
+    {
+        uiManager = GameObject.Find("GameManager").GetComponent<UIManager>();
+        strengthText.text = PlayerController.playerController.attackDamage.ToString();
+        critText.text = PlayerController.playerController.critChance.ToString();
+        staminaText.text = PlayerController.playerController.maxStamina.ToString();
+        healthText.text = PlayerController.playerController.maxHealth.ToString();
+        defenseText.text = PlayerController.playerController.defenseAmount.ToString();
     }
 
 	/*void Update () {
@@ -75,10 +102,10 @@ public class Experience_Manager : MonoBehaviour
     {
         if(currentExperience > neededExperience)
         {
-            UI_Manager.uiManager.experienceBarFiller.fillAmount = 0;
+            uiManager.experienceBarFiller.fillAmount = 0;
             currentLevel++;
             experiencePoints++;
-            UI_Manager.uiManager.levelText.text = currentLevel.ToString();
+            levelText.text = currentLevel.ToString();
             currentExperience = currentExperience - neededExperience;
             neededExperience = neededExperience * experienceScale;
             neededExperience = Mathf.Round(neededExperience);
@@ -94,7 +121,8 @@ public class Experience_Manager : MonoBehaviour
             experiencePoints--;
             PlayerController.playerController.attackDamage *= strenghtScale;
             PlayerController.playerController.critDamage += critDmgScale;
-            UI_Manager.uiManager.SetStrengthStats(PlayerController.playerController.attackDamage, strength);
+            strengthText.text = PlayerController.playerController.attackDamage.ToString();
+            strengthPoints.text = strength.ToString();
         }
     }
 
@@ -105,7 +133,8 @@ public class Experience_Manager : MonoBehaviour
             critChance++;
             experiencePoints--;
             PlayerController.playerController.critChance += critScale;
-            UI_Manager.uiManager.SetCritStats(PlayerController.playerController.critChance, critChance);
+            critText.text = PlayerController.playerController.critChance.ToString();
+            critPoints.text = critChance.ToString();
         }
     }
 
@@ -117,7 +146,8 @@ public class Experience_Manager : MonoBehaviour
             experiencePoints--;
             PlayerController.playerController.maxStamina *= stamineScale;
             PlayerController.playerController.currentStamina += PlayerController.playerController.maxStamina + PlayerController.playerController.currentStamina;
-            UI_Manager.uiManager.SetStaminaStats(PlayerController.playerController.maxStamina, stamina);
+            staminaText.text = PlayerController.playerController.maxStamina.ToString();
+            staminaPoints.text = stamina.ToString();
         }
     }
 
@@ -130,7 +160,8 @@ public class Experience_Manager : MonoBehaviour
             experiencePoints--;
             PlayerController.playerController.maxHealth *= healthScale;
             PlayerController.playerController.currentHealth += PlayerController.playerController.maxHealth + PlayerController.playerController.currentHealth;
-            UI_Manager.uiManager.SetHealthStats(PlayerController.playerController.maxHealth, health);
+            healthText.text = PlayerController.playerController.maxHealth.ToString();
+            healthPoints.text = health.ToString();
         }
     }
 
@@ -142,7 +173,8 @@ public class Experience_Manager : MonoBehaviour
             experiencePoints--;
             PlayerController.playerController.defenseAmount += defenseScale;
             PlayerController.playerController.blockChance += blockScale;
-            UI_Manager.uiManager.SetDefenseStats(PlayerController.playerController.defenseAmount, defense);
+            defenseText.text = PlayerController.playerController.defenseAmount.ToString();
+            defensePoints.text = defense.ToString();
         }
     }
 }

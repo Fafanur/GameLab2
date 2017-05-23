@@ -25,7 +25,5 @@ public class Inventory_Manager : MonoBehaviour
         PlayerController.playerController.currentHealth = (PlayerController.playerController.maxHealth + healthPoints) - PlayerController.playerController.maxHealth + PlayerController.playerController.currentHealth;
         PlayerController.playerController.maxHealth += defPoints;
         PlayerController.playerController.defenseAmount += healthPoints;
-        UI_Manager.uiManager.SetHealthStats(PlayerController.playerController.maxHealth, healthPoints);
-        UI_Manager.uiManager.SetDefenseStats(PlayerController.playerController.defenseAmount, Experience_Manager.xpManager.defense);
 	}
 }

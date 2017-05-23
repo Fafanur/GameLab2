@@ -47,17 +47,14 @@ public class CraftManager : MonoBehaviour {
         {
             if (panelActive)
             {
-                UI_Manager.uiManager.UpdateCraftables(pickupFlower, pickupSeaWeed, healthyHerb);
                 PlayerController.playerController.cursorLocked = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;
-                UI_Manager.uiManager.craftPanel.SetActive(true);
                 panelActive = false;
             }
             else {
                 PlayerController.playerController.cursorLocked = true;
                 Camera.main.GetComponent<CameraController>().maymoveMouse = true;
-                UI_Manager.uiManager.craftPanel.SetActive(false);
                 panelActive = true;
             }         
         }      
@@ -69,7 +66,6 @@ public class CraftManager : MonoBehaviour {
             pickupFlower -= checkCounter;
             pickupSeaWeed -= checkCounter;
             healthyHerb++;
-            UI_Manager.uiManager.UpdateCraftables(pickupFlower, pickupSeaWeed, healthyHerb);
         }
     }
 }

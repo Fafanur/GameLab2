@@ -300,7 +300,7 @@ public class PlayerController : MonoBehaviour
             {
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;
                 mayMove = false;
-                UI_Manager.uiManager.GameOverScreen();
+               // UIManager.uiManager.GameOverScreen();
             }
         }
         return currentHealth;

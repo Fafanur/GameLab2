@@ -22,8 +22,6 @@ public class UIManager : MonoBehaviour
     public int unfoldedQuests;
     public List<GameObject> questPanels = new List<GameObject>();
 
-
-
     void Awake()
     {
         //Inject scripts from gamemanager when scene loads c:
@@ -36,7 +34,12 @@ public class UIManager : MonoBehaviour
         ShowQuests();
     }
 
-
+    void Update()
+    {
+        HealthBar();
+        ExperienceBar();
+        StaminaBar();
+    }
 
     public void ShowQuests()
     {
@@ -72,5 +75,23 @@ public class UIManager : MonoBehaviour
             //Add the panels to a list so we can destroy them all at once c:
             questPanels.Add(spawnedQuestPanel);
         }
+    }
+
+    public void HealthBar()
+    {
+        float fillAmount = PlayerController.playerController.currentHealth / PlayerController.playerController.maxHealth;
+        healthBarFiller.fillAmount = Mathf.Lerp(healthBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);    
+    }
+    
+    public void StaminaBar()
+    {
+        float fillAmount = PlayerController.playerController.currentStamina / PlayerController.playerController.maxStamina;
+        staminaBarFiller.fillAmount = Mathf.Lerp(staminaBarFiller.fillAmount, fillAmount, Time.deltaTime * 5);
+    }
+
+    public void ExperienceBar()
+    {
+        float fillAmount = Experience_Manager.xpManager.currentExperience / Experience_Manager.xpManager.neededExperience;
+        experienceBarFiller.fillAmount = Mathf.Lerp(experienceBarFiller.fillAmount, fillAmount, Time.deltaTime * 2);
     }
 }
