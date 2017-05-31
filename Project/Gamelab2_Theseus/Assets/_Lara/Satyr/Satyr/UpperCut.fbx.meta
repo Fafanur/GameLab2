@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bec47ce8a68d7304ab192cf2e1a10278
-timeCreated: 1494940359
+guid: f113e5365b538d44db5fb3fe48ec3bb1
+timeCreated: 1494964890
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -137,7 +137,7 @@ ModelImporter:
     400126: mixamorig:Spine1
     400128: mixamorig:Spine2
     400130: //RootNode
-    7400000: StabForward
+    7400000: UpperCut
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -161,10 +161,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: StabForward
+      name: UpperCut
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 39
+      lastFrame: 73
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -183,7 +183,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.4749499
+        functionName: AnimOnEnemyAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 7a4e4e0cad885294dac344d61c55aa41,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

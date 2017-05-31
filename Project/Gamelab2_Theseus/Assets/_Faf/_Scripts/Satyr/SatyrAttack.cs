@@ -11,7 +11,7 @@ public class SatyrAttack : MonoBehaviour
     private float nextAttack;
     public float attackRange = 3.5f;
     public int attackDamage;
-
+    
 	
 	void Start()
     {
@@ -30,6 +30,7 @@ public class SatyrAttack : MonoBehaviour
     void SetAttackTarget(Transform targetTransform) //why tho
     {
         attackTarget = targetTransform;
+        
 
     }
 
@@ -50,10 +51,18 @@ public class SatyrAttack : MonoBehaviour
         }
     }
 
-    // animation shizz, maar nog geen animaties.
+    // animation shizz
     public void AnimOnEnemyAttack()
     {
+        if(attackTarget != null)
+        {
+            if (Vector3.Distance(myTransform.position, attackTarget.position) <= attackRange &&
+           attackTarget.GetComponent<SatyrManager>() != null)
+            {
+                print("ew"); // only should give damage when player is infront of the enemy
+            }
 
+        }
     }
 
 }
