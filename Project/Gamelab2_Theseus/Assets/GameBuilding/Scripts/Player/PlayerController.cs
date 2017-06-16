@@ -25,10 +25,11 @@ public class PlayerController : MonoBehaviour
     public float normalSpeed;
     public float heightRayDis;
     public float jumpForce;
-    private bool mayJump = true;
+    public bool mayJump = true;
     private bool mayAttack = true;
     private float xInput;
     private float yInput;
+    public RaycastHit jumpHit;
 
     [Header("Attack")]
     public float attackDamage;
@@ -201,6 +202,7 @@ public class PlayerController : MonoBehaviour
             currentStamina = Mathf.Clamp(currentStamina, 0, 100);
         }
 
+        /*
         if (Physics.Raycast(transform.position, -transform.up, heightRayDis))
         {
             _rb.useGravity = false;
@@ -209,24 +211,25 @@ public class PlayerController : MonoBehaviour
         {
             _rb.useGravity = true;
         }
+        */
     }
 
     void Jump()
     {
+        //Debug.DrawRay(transform.position, -Vector3.up, Color.red);
         if (Input.GetButtonDown("Jump"))
         {
-            if (mayJump)
+            if (Physics.Raycast(transform.position, -Vector3.up, out jumpHit, heightRayDis))
             {
-                _rb.AddForce(Vector3.up * jumpForce);
-                mayJump = false;
+                if (jumpHit.transform.tag == "Ground")
+                {
+                    print("I WURK");
+                    _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                }
             }
         }
-        if (Physics.Raycast(transform.position, -transform.up, heightRayDis))
-        {
-            mayJump = true;
-        }
     }
-
+   
     void Attack()
     {
         if (CritStrike()) //Calculate total damage
