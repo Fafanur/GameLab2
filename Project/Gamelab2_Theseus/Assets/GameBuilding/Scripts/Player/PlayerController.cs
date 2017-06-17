@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
             currentStamina = Mathf.Clamp(currentStamina, 0, 100);
         }
 
-        /*
+        /* Waarom Gravity uit? 
         if (Physics.Raycast(transform.position, -transform.up, heightRayDis))
         {
             _rb.useGravity = false;
@@ -216,14 +216,15 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        //Debug.DrawRay(transform.position, -Vector3.up, Color.red);
+        //Debug.DrawRay(transform.position, -Vector3.up, Color.red); 
+        // Jump aangepast
         if (Input.GetButtonDown("Jump"))
         {
             if (Physics.Raycast(transform.position, -Vector3.up, out jumpHit, heightRayDis))
             {
                 if (jumpHit.transform.tag == "Ground")
                 {
-                    print("I WURK");
+                    print("Im Jumping");
                     _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 }
             }
