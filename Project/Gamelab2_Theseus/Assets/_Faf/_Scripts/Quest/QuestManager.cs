@@ -8,29 +8,34 @@ public class QuestManager : MonoBehaviour
     public List<QuestClass> activeQuests = new List<QuestClass>();
 
 
+    UIManager uiManager;
     InventoryManager inventoryManager;
 
 
     void Awake()
     {
         inventoryManager = GetComponent<InventoryManager>();
+        uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     void Start()
     {
         CheckQuestProgression();
+        
     }
 
     public void CheckQuestProgression()
     {
+        activeQuests.Clear();
         for (int i = 0; i <quests.Count; i++)
         {
-            if(quests[i].questState == QuestClass.QuestState.Active)
+            if (quests[i].questState == QuestClass.QuestState.Active || quests[i].questState == QuestClass.QuestState.TaskCompleted)
             {
                 ActivateQuest(quests[i].questID);
+                
             }
         }
-        
+                uiManager.ShowQuests();
     }
 
 
