@@ -48,9 +48,11 @@ public class PlayerController : MonoBehaviour
     public float currentHealth;
     public float maxHealth;
 
+    /*
     [Header("Defense")]
     public float blockChance;
     public float defenseAmount;
+    */
 
     public bool mayMove;
 
@@ -298,19 +300,20 @@ public class PlayerController : MonoBehaviour
 
     float GetHit (float damage)
     {
-        if (!BlockChance())
-        {
-            currentHealth -= (damage - defenseAmount);
+       // if (!BlockChance())
+       // {
+           // currentHealth -= (damage - defenseAmount);
             if (currentHealth <= 0)
             {
                 Camera.main.GetComponent<CameraController>().maymoveMouse = false;
                 mayMove = false;
                // UIManager.uiManager.GameOverScreen();
             }
-        }
+     //   }
         return currentHealth;
     }
 
+    /*
     bool BlockChance() // calculate if the player blocks
     {
         float number = Random.Range(1, 101);
@@ -323,6 +326,7 @@ public class PlayerController : MonoBehaviour
             return false;
         }
     }
+    */
 
     float GetHealth(float healAmount)
     {

@@ -7,6 +7,7 @@ public class QuestManager : MonoBehaviour
     public List<QuestClass> quests = new List<QuestClass>();
     public List<QuestClass> activeQuests = new List<QuestClass>();
 
+
     InventoryManager inventoryManager;
 
 
@@ -15,6 +16,22 @@ public class QuestManager : MonoBehaviour
         inventoryManager = GetComponent<InventoryManager>();
     }
 
+    void Start()
+    {
+        CheckQuestProgression();
+    }
+
+    public void CheckQuestProgression()
+    {
+        for (int i = 0; i <quests.Count; i++)
+        {
+            if(quests[i].questState == QuestClass.QuestState.Active)
+            {
+                ActivateQuest(quests[i].questID);
+            }
+        }
+        
+    }
 
 
     public void ActivateQuest(int id)
@@ -24,6 +41,7 @@ public class QuestManager : MonoBehaviour
             if(quests[i].questID == id)
             {
                 activeQuests.Add(quests[id]);
+
             }
         }
     }

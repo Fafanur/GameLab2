@@ -24,6 +24,6 @@ public class Inventory_Manager : MonoBehaviour
     {
         PlayerController.playerController.currentHealth = (PlayerController.playerController.maxHealth + healthPoints) - PlayerController.playerController.maxHealth + PlayerController.playerController.currentHealth;
         PlayerController.playerController.maxHealth += defPoints;
-        PlayerController.playerController.defenseAmount += healthPoints;
+        //PlayerController.playerController.defenseAmount += healthPoints;
 	}
 }

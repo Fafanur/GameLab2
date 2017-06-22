@@ -13,7 +13,6 @@ public class ItemClass
         Consumable,
         QuestItem,
         ArmorPiece,
-        Trash
     };
 
     public ItemType itemType;

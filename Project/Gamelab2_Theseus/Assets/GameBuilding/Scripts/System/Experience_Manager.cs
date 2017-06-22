@@ -69,7 +69,7 @@ public class Experience_Manager : MonoBehaviour
         critText.text = PlayerController.playerController.critChance.ToString();
         staminaText.text = PlayerController.playerController.maxStamina.ToString();
         healthText.text = PlayerController.playerController.maxHealth.ToString();
-        defenseText.text = PlayerController.playerController.defenseAmount.ToString();
+       // defenseText.text = PlayerController.playerController.defenseAmount.ToString();
     }
 
 	/*void Update () {
@@ -165,6 +165,7 @@ public class Experience_Manager : MonoBehaviour
         }
     }
 
+    /*
     public void AddDefense()
     {
         if (experiencePoints > 0)
@@ -177,4 +178,5 @@ public class Experience_Manager : MonoBehaviour
             defensePoints.text = defense.ToString();
         }
     }
+    */
 }
