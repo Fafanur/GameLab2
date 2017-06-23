@@ -23,13 +23,15 @@ public class QuestClass
         Inactive,
         Active,
         TaskCompleted,
-        Completed
+        Completed,
+        Optional
     };
 
     public QuestState questState;
 
     public int requiredItemID;
     public int rewardItemID;
+    public int amount;
     public int expReward;
     public bool unfolded;
 }

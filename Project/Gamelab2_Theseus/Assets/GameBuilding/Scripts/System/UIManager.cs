@@ -22,6 +22,10 @@ public class UIManager : MonoBehaviour
     public int unfoldedQuests;
     public List<GameObject> questPanels = new List<GameObject>();
 
+    [Header("Inventory")]
+
+    public Text seaweedAmountText;
+
     void Awake()
     {
         //Inject scripts from gamemanager when scene loads c:
@@ -40,6 +44,12 @@ public class UIManager : MonoBehaviour
         ExperienceBar();
         StaminaBar();
     }
+
+    public void ShowItemCounters()
+    {
+        seaweedAmountText.text = inventoryManager.CountSeaweed().ToString();
+    }
+
 
     public void ShowQuests()
     {

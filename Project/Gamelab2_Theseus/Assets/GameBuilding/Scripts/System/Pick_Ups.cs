@@ -2,33 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pick_Ups : MonoBehaviour {
-    public int thisItemNumber;
+public class Pick_Ups : MonoBehaviour
+{
     public int defensePoints;
     public int healthPoints;
     public string itemName;
 
-    public float minRotateSpeed;
-    public float maxRotateSpeed;
-    private Vector3 rotation;
+    public int thisItemID;
+    private InventoryManager inventory;
+    private ThisFixesGame fix;
 
-    void Awake()
+    void Start()
     {
-        rotation = new Vector3(Random.Range(minRotateSpeed, maxRotateSpeed), Random.Range(minRotateSpeed, maxRotateSpeed), Random.Range(minRotateSpeed, maxRotateSpeed));
-    }
-
-    void Update()
-    {
-        RotateItem();
-    }
-
-    void RotateItem()
-    {
-        transform.Rotate(rotation * Time.deltaTime);
+        fix = GameObject.Find("GameManager").GetComponent<ThisFixesGame>();
+        inventory = GameObject.Find("GameManager").GetComponent<InventoryManager>();
     }
 
     void OnMouseDown()
     {
+        if (gameObject.tag == "Sword")
+        {
+            fix.pickedupWep++;
+            Destroy(gameObject);
+        }
+
         if (gameObject.tag == "Flower")
         {
             CraftManager.craftManager.pickupFlower++;
@@ -37,12 +34,17 @@ public class Pick_Ups : MonoBehaviour {
         else if (gameObject.tag == "Seaweed")
         {
             CraftManager.craftManager.pickupSeaWeed++;
+            inventory.seaWeedAmount++;
             Destroy(gameObject);
         }
-        else
+
+        if(gameObject.tag == "Armor")
         {
-            Inventory_Manager.invManager.SetItemStats(thisItemNumber, defensePoints, healthPoints);
-            Destroy(gameObject);
+            inventory.armorAmount++;
         }
+
+
+      
+        
     }
 }

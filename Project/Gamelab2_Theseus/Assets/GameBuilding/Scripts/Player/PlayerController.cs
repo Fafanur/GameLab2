@@ -204,7 +204,7 @@ public class PlayerController : MonoBehaviour
             currentStamina = Mathf.Clamp(currentStamina, 0, 100);
         }
 
-        /* 
+        /*  WRM?
         if (Physics.Raycast(transform.position, -transform.up, heightRayDis))
         {
             _rb.useGravity = false;
@@ -300,7 +300,7 @@ public class PlayerController : MonoBehaviour
 
     float GetHit (float damage)
     {
-       // if (!BlockChance())
+       // if (!BlockChance()) We hebben nooit een block in de game gestopt? 
        // {
            // currentHealth -= (damage - defenseAmount);
             if (currentHealth <= 0)
@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /*
-    bool BlockChance() // calculate if the player blocks
+    bool BlockChance() // calculate if the player blocks // WHY 
     {
         float number = Random.Range(1, 101);
         if(number <= blockChance)
