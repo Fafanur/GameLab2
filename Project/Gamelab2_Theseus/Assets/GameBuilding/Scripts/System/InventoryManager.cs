@@ -9,6 +9,8 @@ public class InventoryManager : MonoBehaviour
     public List<ItemClass> inventory = new List<ItemClass>();
     public int armorAmount;
     public int potionAmount;
+    public int seaWeedAmount;
+    public int flowerAmount;
 
 
     public int CountArmorPieces()
@@ -18,12 +20,24 @@ public class InventoryManager : MonoBehaviour
         {
             if(inventory[i].itemType == ItemClass.ItemType.ArmorPiece)
             {
-                armorAmount++;
+                armorAmount++; 
             }
         }
         return armorAmount;
     }
 
+
+    public int CountSeaweed()
+    {
+        for(int i = 0; i< inventory.Count; i++)
+        {
+            if(inventory[i].itemID == 5)
+            {
+                seaWeedAmount++;
+            }
+        }
+        return seaWeedAmount;
+    }
 
     public int CountPotionItems()
     {
@@ -37,5 +51,4 @@ public class InventoryManager : MonoBehaviour
         }
         return potionAmount;
     }
-
 }
