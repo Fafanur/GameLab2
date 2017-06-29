@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowItemCounters()
     {
-        seaweedAmountText.text = inventoryManager.CountSeaweed().ToString();
+        //seaweedAmountText.text = inventoryManager.CountSeaweed().ToString();
     }
 
 

@@ -7,10 +7,21 @@ public class InventoryManager : MonoBehaviour
 {
     public List<ItemClass> items = new List<ItemClass>();
     public List<ItemClass> inventory = new List<ItemClass>();
-    public int armorAmount;
+
     public int potionAmount;
     public int seaWeedAmount;
     public int flowerAmount;
+
+    public bool hasHelmet;
+    public bool hasChest;
+    public bool hasWrists;
+    public bool hasBoots;
+
+
+    public void AddItem(int ID)
+    {
+        inventory.Add(items[ID]);
+    }
 
 
     public int CountArmorPieces()

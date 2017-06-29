@@ -38,13 +38,25 @@ public class Pick_Ups : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(gameObject.tag == "Armor")
+        if(gameObject.tag == "Helmet")
         {
-            inventory.armorAmount++;
+            inventory.hasHelmet = true;
+            Destroy(gameObject);
         }
-
-
-      
-        
+        if (gameObject.tag == "Chest")
+        {
+            inventory.hasChest = true;
+            Destroy(gameObject);
+        }
+        if (gameObject.tag == "Wrists")
+        {
+            inventory.hasWrists = true;
+            Destroy(gameObject);
+        }
+        if (gameObject.tag == "Boots")
+        {
+            inventory.hasBoots = true;
+            Destroy(gameObject);
+        }
     }
 }
