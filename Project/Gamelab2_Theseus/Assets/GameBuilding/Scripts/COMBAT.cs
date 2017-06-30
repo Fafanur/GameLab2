@@ -5,18 +5,26 @@ using UnityEngine;
 public class COMBAT : MonoBehaviour {
     RaycastHit hit;
     public float raydis;
-    public int attackdamage = 10;
+    public int attackdamage;
+    private Satyr satScript;
 
     public Transform camPos;
+    public bool mayAttack;
 
+    public void Attack () {
 
-    void Attack () {
-        if (Physics.Raycast(camPos.position, camPos.forward, out hit, raydis))
+        if(mayAttack == true)
         {
-            if (hit.transform.tag == "Enemy")
+            if (Physics.Raycast(camPos.position, camPos.forward, out hit, raydis))
             {
-                hit.transform.GetComponent<SatyrManager>().curHealth -= attackdamage;
+                if (hit.transform.tag == "Enemy")
+                {
+                    print("Player is Attacking");
+                    hit.transform.GetComponent<Satyr>().curHealth -= attackdamage;
+                    mayAttack = false;
+                }
             }
         }
+        
     }
 }

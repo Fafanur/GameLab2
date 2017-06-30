@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController playerController;
+    public UIManager uimanager;
+    public COMBAT combat;
     [Header("Components")]
     private Rigidbody _rb;
     public Animator headBobAnimator;
@@ -82,10 +84,17 @@ public class PlayerController : MonoBehaviour
         normalSpeed = moveSpeed;
         _rb = GetComponent<Rigidbody>();
         headBobAnimator = headBobAnimator.GetComponent<Animator>();
+        uimanager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     void Update() 
     {
+
+        if (Input.GetButtonDown("Q"))
+        {
+            uimanager.HealHerb();
+            currentHealth += 30f;
+        }
         if (Input.GetButtonDown("Alt"))
         {
             if (cursorLocked)
@@ -147,6 +156,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Fire2"))
             {
                 Attack();
+                combat.mayAttack = true;
             }
         }
     }
@@ -262,13 +272,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Physics.Raycast(transform.position,Vector3.forward, out hit, raydis))
+
+        /*
+        if (Physics.Raycast(transform.position,Vector3.forward, out hit, raydis))
         {
             if(hit.transform.tag == "Enemy")
             {
-                hit.transform.GetComponent<SatyrManager>().curHealth -= attackDamage;
+                print("Player is attacking");
+                hit.transform.GetComponent<Satyr>().curHealth -= attackDamage;
             }
         }
+        */
     }
 
     public void CheckCursorState()

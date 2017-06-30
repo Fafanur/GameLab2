@@ -8,6 +8,8 @@ public class InventoryManager : MonoBehaviour
     public List<ItemClass> items = new List<ItemClass>();
     public List<ItemClass> inventory = new List<ItemClass>();
 
+    UIManager uiManager;
+
     public int potionAmount;
     public int seaWeedAmount;
     public int flowerAmount;
@@ -17,13 +19,38 @@ public class InventoryManager : MonoBehaviour
     public bool hasWrists;
     public bool hasBoots;
 
+    void Awake()
+    {
+        uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+    }
 
     public void AddItem(int ID)
     {
         inventory.Add(items[ID]);
     }
 
+    void Update()
+    {
+        if(hasHelmet)
+        {
+            uiManager.LightUpPiece(uiManager.helmet);
+        }
+        if(hasChest)
+        {
+            uiManager.LightUpPiece(uiManager.chest);
+        }
+        if(hasWrists)
+        {
+            uiManager.LightUpPiece(uiManager.wristguards);
+        }
+        if(hasBoots)
+        {
+            uiManager.LightUpPiece(uiManager.boots);
+        }
+    }
 
+
+    /*
     public int CountArmorPieces()
     {
         armorAmount = 0;
@@ -62,4 +89,5 @@ public class InventoryManager : MonoBehaviour
         }
         return potionAmount;
     }
+    */
 }

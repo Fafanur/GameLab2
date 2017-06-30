@@ -185,9 +185,9 @@ ModelImporter:
       curves: []
       events:
       - time: 0.33466935
-        functionName: AnimOnEnemyAttack
+        functionName: Attack
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 7a4e4e0cad885294dac344d61c55aa41,
+        objectReferenceParameter: {fileID: 11500000, guid: c123bed543b672645b62d1ab0f0accad,
           type: 3}
         floatParameter: 0
         intParameter: 0

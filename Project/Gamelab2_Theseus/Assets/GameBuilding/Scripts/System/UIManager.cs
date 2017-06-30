@@ -14,6 +14,14 @@ public class UIManager : MonoBehaviour
     public Image experienceBarFiller;
     public Image staminaBarFiller;
 
+    public Text healthCraftText;
+    public Text herbText;
+    public Text seaweedText;
+    public int healths;
+
+    public int herbs;
+    public int seaweed;
+
     [Header("Quests")]
 
     GameObject spawnedQuestPanel;
@@ -26,6 +34,12 @@ public class UIManager : MonoBehaviour
 
     public Text seaweedAmountText;
 
+    [Header("ArmorPieces")]
+    public Image helmet;
+    public Image chest;
+    public Image wristguards;
+    public Image boots;
+
     void Awake()
     {
         //Inject scripts from gamemanager when scene loads c:
@@ -36,6 +50,9 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         ShowQuests();
+
+        seaweed = 5;
+        herbs = 5;
     }
 
     void Update()
@@ -43,6 +60,11 @@ public class UIManager : MonoBehaviour
         HealthBar();
         ExperienceBar();
         StaminaBar();
+
+        if(Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            CraftHerb();
+        }
     }
 
     public void ShowItemCounters()
@@ -103,5 +125,29 @@ public class UIManager : MonoBehaviour
     {
         float fillAmount = Experience_Manager.xpManager.currentExperience / Experience_Manager.xpManager.neededExperience;
         experienceBarFiller.fillAmount = Mathf.Lerp(experienceBarFiller.fillAmount, fillAmount, Time.deltaTime * 2);
+    }
+
+    public void LightUpPiece(Image lightThisUpPlz)
+    {
+        lightThisUpPlz.color = new Color(1, 1, 1, 1);
+    }
+
+    public void CraftHerb()
+    {
+        healths++;
+
+        herbs--;
+        seaweed--;
+
+        healthCraftText.text = healths.ToString();
+        herbText.text = herbs.ToString();
+        seaweedText.text = seaweed.ToString();
+    }
+
+    public void HealHerb()
+    {
+        healths--;
+
+        healthCraftText.text = healths.ToString();
     }
 }
