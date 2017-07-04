@@ -50,6 +50,10 @@ public class PlayerController : MonoBehaviour
     public float currentHealth;
     public float maxHealth;
 
+	[Header("HealParticle")]
+	public ParticleSystem healStar;
+	public ParticleSystem healLight;
+
     /*
     [Header("Defense")]
     public float blockChance;
@@ -89,11 +93,14 @@ public class PlayerController : MonoBehaviour
 
     void Update() 
     {
-
+		
         if (Input.GetButtonDown("Q"))
         {
             uimanager.HealHerb();
             currentHealth += 30f;
+
+			healStar.Emit (50);
+			healLight.Emit (25);
         }
         if (Input.GetButtonDown("Alt"))
         {
