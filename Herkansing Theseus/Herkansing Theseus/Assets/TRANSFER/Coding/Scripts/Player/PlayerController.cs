@@ -158,6 +158,9 @@ public class PlayerController : MonoBehaviour
                 Attack();
                 combat.mayAttack = true;
             }
+			if (!Input.GetButtonDown ("Fire2")) {
+				combatStates = CombatStates.Idle;
+			}
         }
     }
 

@@ -21,7 +21,7 @@ public class COMBAT : MonoBehaviour {
                 {
                     print("Player is Attacking");
                     hit.transform.GetComponent<Satyr>().curHealth -= attackdamage;
-                    mayAttack = false;
+					mayAttack = false;
                 }
             }
         }
